@@ -7,13 +7,12 @@ export type Author = {
 };
 
 export type Blog = {
-  _id: number;
+  id: number;
   title: string;
-  slug?: any;
-  metadata?: string;
-  body?: string;
-  mainImage?: any;
-  author?: Author;
-  tags?: string[];
-  publishedAt?: string;
+  thumbnail: string;
+  thumbnail_url: string;
+  tags: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
 };

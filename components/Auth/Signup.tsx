@@ -3,14 +3,47 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import axiosInstance from "@/libs/axios";
+import { toast } from "react-hot-toast";
+import { useAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
   const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
+    full_name: "",
     email: "",
     password: "",
+    password_confirmation: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await axiosInstance.post("/register", data);
+      toast.success("Account created successfully!");
+      login(response.data.access_token, response.data.user);
+      router.push("/");
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Something went wrong";
+      toast.error(message);
+      if (error.response?.data?.errors) {
+        // Handle field-specific errors if needed
+        console.error(error.response.data.errors);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://127.0.0.1:8000/api/auth/google";
+  };
 
   return (
     <>
@@ -58,6 +91,7 @@ const Signup = () => {
             <div className="flex items-center gap-8">
               <button
                 aria-label="signup with google"
+                onClick={handleGoogleLogin}
                 className="text-body-color dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-xs border border-stroke bg-[#f8f8f8] px-6 py-3 text-base outline-hidden transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
               >
                 <span className="mr-3">
@@ -123,24 +157,25 @@ const Signup = () => {
               <span className="dark:bg-stroke-dark hidden h-[1px] w-full max-w-[200px] bg-stroke dark:bg-strokedark sm:block"></span>
             </div>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
                 <input
-                  name="firstName"
+                  name="name"
                   type="text"
-                  placeholder="First name"
-                  value={data.firstName}
+                  placeholder="Username"
+                  value={data.name}
                   onChange={(e) =>
                     setData({ ...data, [e.target.name]: e.target.value })
                   }
+                  required
                   className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
                 />
 
                 <input
-                  name="lastName"
+                  name="full_name"
                   type="text"
-                  placeholder="Last name"
-                  value={data.lastName}
+                  placeholder="Full name"
+                  value={data.full_name}
                   onChange={(e) =>
                     setData({ ...data, [e.target.name]: e.target.value })
                   }
@@ -157,6 +192,7 @@ const Signup = () => {
                   onChange={(e) =>
                     setData({ ...data, [e.target.name]: e.target.value })
                   }
+                  required
                   className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
                 />
 
@@ -168,7 +204,22 @@ const Signup = () => {
                   onChange={(e) =>
                     setData({ ...data, [e.target.name]: e.target.value })
                   }
+                  required
                   className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
+                />
+              </div>
+
+              <div className="mb-7.5 flex flex-col gap-7.5 lg:mb-12.5 lg:flex-row lg:justify-between lg:gap-14">
+                <input
+                  name="password_confirmation"
+                  type="password"
+                  placeholder="Confirm Password"
+                  value={data.password_confirmation}
+                  onChange={(e) =>
+                    setData({ ...data, [e.target.name]: e.target.value })
+                  }
+                  required
+                  className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-full"
                 />
               </div>
 

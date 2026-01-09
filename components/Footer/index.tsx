@@ -32,14 +32,14 @@ const Footer = () => {
                   <Image
                     width={110}
                     height={80}
-                    src="/images/logo/logo-light.jpg"
+                    src="/images/logo/logo.jpg"
                     alt="Logo"
                     className="dark:hidden"
                   />
                   <Image
                     width={110}
                     height={80}
-                    src="/images/logo/logo-dark.jpg"
+                    src="/images/logo/logo.jpg"
                     alt="Logo"
                     className="hidden dark:block"
                   />
@@ -103,7 +103,7 @@ const Footer = () => {
                     </li>
                     <li>
                       <a
-                        href="/blog"
+                        href="/articles"
                         className="mb-3 inline-block hover:text-primary"
                       >
                         Articles
@@ -161,10 +161,18 @@ const Footer = () => {
                     </li>
                     <li>
                       <a
-                        href="/blog"
+                        href="/articles"
                         className="mb-3 inline-block hover:text-primary"
                       >
                         Articles & Tips
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="/kids-articles"
+                        className="mb-3 inline-block hover:text-primary"
+                      >
+                        Kids Articles
                       </a>
                     </li>
                     <li>
