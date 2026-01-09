@@ -3,12 +3,40 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import axiosInstance from "@/libs/axios";
+import { toast } from "react-hot-toast";
+import { useAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Signin = () => {
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await axiosInstance.post("/login", data);
+      toast.success("Logged in successfully!");
+      login(response.data.access_token, response.data.user);
+      router.push("/");
+    } catch (error: any) {
+      const message = error.response?.data?.message || "Something went wrong";
+      toast.error(message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = "http://127.0.0.1:8000/api/auth/google";
+  };
 
   return (
     <>

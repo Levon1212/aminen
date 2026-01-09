@@ -3,39 +3,45 @@ import { Menu } from "@/types/menu";
 const menuData: Menu[] = [
   {
     id: 1,
-    title: "Home",
+    title: "Live lessons",
     newTab: false,
-    path: "/",
+    path: "/live-lessons",
   },
   {
     id: 2,
-    title: "Lessons",
+    title: "Online lessons",
     newTab: false,
-    path: "/#lessons",
+    path: "/online-lessons",
   },
   {
     id: 2.1,
     title: "Articles",
     newTab: false,
-    path: "/blog",
+    path: "/articles",
   },
   {
-    id: 2.3,
-    title: "YouTube",
+    id: 2.2,
+    title: "Kids",
     newTab: false,
-    path: "https://www.youtube.com",
+    path: "/kids-articles",
   },
   {
     id: 4,
     title: "Book on Amazon",
-    newTab: false,
-    path: "/book",
+    newTab: true,
+    path: "https://a.co/d/aPsda2g",
+  },
+  {
+    id: 4,
+    title: "Youtube",
+    newTab: true,
+    path: "https://www.youtube.com/@HayLanguage",
   },
   {
     id: 5,
     title: "Contact",
     newTab: false,
-    path: "/contact",
+    path: "/support",
   },
 ];
 

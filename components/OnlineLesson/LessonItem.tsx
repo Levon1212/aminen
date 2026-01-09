@@ -1,14 +1,12 @@
 "use client";
-import { Blog } from "@/types/blog";
+import { Lesson } from "@/types/lesson";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
-
 import { getImagePath } from "@/libs/imageHelper";
 
-const BlogItem = ({ blog, isKids = false }: { blog: Blog; isKids?: boolean }) => {
-  const { thumbnail, title, id, tags } = blog;
-  const detailsPath = isKids ? `/kids-articles/articles-details/${id}` : `/articles/articles-details/${id}`;
+const LessonItem = ({ lesson }: { lesson: Lesson }) => {
+  const { thumbnail, title, id, tags, price } = lesson;
+  const detailsPath = `/online-lessons/details/${id}`;
 
   return (
     <>
@@ -47,18 +45,21 @@ const BlogItem = ({ blog, isKids = false }: { blog: Blog; isKids?: boolean }) =>
           <h3 className="hover:text-primary dark:hover:text-primary xl:text-itemtitle2 mt-7.5 mb-3.5 line-clamp-2 inline-block text-lg font-medium text-black duration-300 dark:text-white">
             <Link href={detailsPath}>{title}</Link>
           </h3>
-          <p>
+          <div className="flex items-center justify-between mt-5">
+            <p className="text-black dark:text-white font-medium">
+               {price}
+            </p>
             {tags && (
-              <span>
+              <p className="text-sm">
                 <span className="text-black dark:text-white">Tags: </span>
                 {tags}
-              </span>
+              </p>
             )}
-          </p>
+          </div>
         </div>
       </motion.div>
     </>
   );
 };
 
-export default BlogItem;
+export default LessonItem;

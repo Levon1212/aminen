@@ -212,6 +212,9 @@
   content: "";
   @apply absolute left-0 top-0 h-[106px] w-[140px] bg-[url(/images/blog/quote-shape-1.svg)] bg-contain bg-left-top bg-no-repeat dark:bg-[url(/images/blog/quote-shape-1.svg)];
 }
+.blog-details iframe {
+  @apply w-full aspect-video mb-8 rounded-lg;
+}
 
 pre {
   @apply relative mb-2 rounded-lg bg-strokedark px-4 py-2;
@@ -222,4 +225,9 @@ pre {
 
 .active-tab {
   @apply bg-stroke text-black dark:bg-blackho dark:text-white;
+}
+
+.backdrop-blur {
+  background: #1f8a97 !important;
+  backdrop-filter: blur(20px);
 }

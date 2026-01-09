@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/app/context/AuthContext";
+import { getImagePath } from "@/libs/imageHelper";
 
 import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
@@ -11,6 +13,8 @@ const Header = () => {
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [dropdownToggler, setDropdownToggler] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
+
+  const { user, logout } = useAuth();
 
   const pathUrl = usePathname();
 
@@ -39,7 +43,7 @@ const Header = () => {
         <div className="flex w-full items-center justify-between xl:w-1/4">
           <a href="/">
             <Image
-              src="/images/logo/logo-light.jpg"
+              src="/images/logo/logo.jpg"
               alt="logo"
               width={60.55}
               height={3}
@@ -47,7 +51,7 @@ const Header = () => {
               className="hidden w-full dark:block"
             />
             <Image
-              src="/images/logo/logo-light.jpg"
+              src="/images/logo/logo.jpg"
               alt="logo"
               width={60.55}
               height={3}
@@ -136,6 +140,47 @@ const Header = () => {
 
           <div className="mt-7 flex items-center gap-6 xl:mt-0">
             <ThemeToggler />
+
+            {user ? (
+              <div className="group relative flex items-center gap-2">
+                <Link href="/profile" className="flex items-center gap-2">
+                  <div className="relative h-10 w-10 overflow-hidden rounded-full">
+                    <img
+                      src={user.avatar_url ? getImagePath(user.avatar_url) : "/images/user/user-01.png"}
+                      alt="profile"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <span className="hidden text-black dark:text-white lg:block">
+                    {user.name}
+                  </span>
+                </Link>
+                
+                <div className="invisible absolute right-0 top-full mt-2 w-40 rounded-md bg-white p-2 shadow-solid-5 group-hover:visible dark:bg-blacksection">
+                   <button 
+                    onClick={logout}
+                    className="flex w-full items-center gap-2 px-2 py-1 text-sm text-black hover:text-primary dark:text-white dark:hover:text-primary"
+                   >
+                     Logout
+                   </button>
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center gap-4">
+                <Link
+                  href="/auth/signin"
+                  className="text-regular font-medium text-waterloo hover:text-primary dark:text-white dark:hover:text-primary"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/auth/signup"
+                  className="rounded-full bg-primary px-5 py-2 text-regular font-medium text-white hover:bg-primaryho"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

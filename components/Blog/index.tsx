@@ -1,9 +1,18 @@
 import React from "react";
 import SectionHeader from "../Common/SectionHeader";
 import BlogItem from "./BlogItem";
-import BlogData from "./blogData";
+import axiosInstance from "@/libs/axios";
+import { Blog as BlogType } from "@/types/blog";
 
 const Blog = async () => {
+  let posts: BlogType[] = [];
+  try {
+    const response = await axiosInstance.get("/articles");
+    posts = response.data.data;
+  } catch (error) {
+    console.error("Error fetching articles for home page:", error);
+  }
+
   return (
     <section className="py-20 lg:py-25 xl:py-30">
       <div className="mx-auto max-w-c-1315 px-4 md:px-8 xl:px-0">
@@ -22,7 +31,7 @@ const Blog = async () => {
 
       <div className="mx-auto mt-15 max-w-c-1280 px-4 md:px-8 xl:mt-20 xl:px-0">
         <div className="grid grid-cols-1 gap-7.5 md:grid-cols-2 lg:grid-cols-3 xl:gap-10">
-          {BlogData.slice(0, 3).map((blog, key) => (
+          {posts.slice(0, 3).map((blog, key) => (
             <BlogItem blog={blog} key={key} />
           ))}
         </div>
