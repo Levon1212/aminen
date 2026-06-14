@@ -82,6 +82,17 @@ const SingleBlogPage = async ({ params }: { params: Promise<{ id: string }> }) =
                     }}
                   />
                 </div>
+
+                {post.video_url && (
+                  <div className="mt-8">
+                    <video
+                      controls
+                      className="w-full rounded-md"
+                      src={post.video_url}
+                    />
+                  </div>
+                )}
+
                 <SharePost />
               </div>
             </div>

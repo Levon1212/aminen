@@ -6,8 +6,19 @@ import featuresTabData from "./featuresTabData";
 
 import { motion } from "framer-motion";
 
-const FeaturesTab = () => {
+interface FeaturesTabSettings {
+  tabImage?: string;
+  tabImageDark?: string;
+}
+
+const FeaturesTab = ({ settings = {} }: { settings?: FeaturesTabSettings }) => {
   const [currentTab, setCurrentTab] = useState("tabOne");
+
+  const resolvedData = featuresTabData.map((tab) => ({
+    ...tab,
+    image: settings.tabImage || tab.image,
+    imageDark: settings.tabImageDark || tab.imageDark,
+  }));
 
   return (
     <>
@@ -127,7 +138,7 @@ const FeaturesTab = () => {
             viewport={{ once: true }}
             className="animate_top mx-auto max-w-c-1154"
           >
-            {featuresTabData.map((feature, key) => (
+            {resolvedData.map((feature, key) => (
               <div
                 className={feature.id === currentTab ? "block" : "hidden"}
                 key={key}

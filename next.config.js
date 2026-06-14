@@ -6,6 +6,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "haylang.online",
+        port: "",
+        pathname: "/storage/**",
+      },
+      {
+        protocol: "https",
         hostname: "cdn.sanity.io",
         port: "",
       },
@@ -20,27 +26,6 @@ const nextConfig = {
         port: "8000",
       },
     ],
-  },
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "no-store, no-cache, must-revalidate, proxy-revalidate",
-          },
-          {
-            key: "Pragma",
-            value: "no-cache",
-          },
-          {
-            key: "Expires",
-            value: "0",
-          },
-        ],
-      },
-    ];
   },
 };
 

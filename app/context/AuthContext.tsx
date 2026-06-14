@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from "react";
 import axiosInstance from "@/libs/axios";
 
 interface User {
@@ -13,6 +13,7 @@ interface User {
   country?: string;
   city?: string;
   phone?: string;
+  google_id?: string | null;
 }
 
 interface AuthContextType {
@@ -39,13 +40,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsLoading(false);
   }, []);
 
-  const login = (token: string, user: User) => {
+  const login = useCallback((token: string, userData: User) => {
     localStorage.setItem("auth_token", token);
-    localStorage.setItem("auth_user", JSON.stringify(user));
-    setUser(user);
-  };
+    localStorage.setItem("auth_user", JSON.stringify(userData));
+    setUser(userData);
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await axiosInstance.post("/logout");
     } catch (error) {
@@ -56,18 +57,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
       window.location.href = "/auth/signin";
     }
-  };
+  }, []);
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     try {
       const response = await axiosInstance.get("/profile");
-      const updatedUser = response.data;
+      const updatedUser = response.data.data;
       localStorage.setItem("auth_user", JSON.stringify(updatedUser));
       setUser(updatedUser);
     } catch (error) {
       console.error("Refresh user error", error);
     }
-  };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, logout, refreshUser, isLoading }}>
