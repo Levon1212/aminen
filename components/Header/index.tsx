@@ -142,27 +142,30 @@ const Header = () => {
             <ThemeToggler />
 
             {user ? (
-              <div className="group relative flex items-center gap-2">
-                <Link href="/profile" className="flex items-center gap-2">
-                  <div className="relative h-10 w-10 overflow-hidden rounded-full">
-                    <img
-                      src={user.avatar_url ? getImagePath(user.avatar_url) : "/images/user/user-01.png"}
-                      alt="profile"
-                      className="h-full w-full object-cover"
-                    />
+              <div className="group relative flex items-center">
+                <div className="relative h-10 w-10 cursor-pointer overflow-hidden rounded-full">
+                  <img
+                    src={user.avatar_url ? getImagePath(user.avatar_url) : "/images/user/user-01.png"}
+                    alt="profile"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+
+                <div className="invisible absolute right-0 top-full w-40 pt-2 group-hover:visible before:absolute before:-top-6 before:left-0 before:h-6 before:w-full before:content-['']">
+                  <div className="rounded-md bg-white p-2 shadow-solid-5 dark:bg-blacksection">
+                    <Link
+                      href="/profile"
+                      className="flex w-full items-center gap-2 px-2 py-1 text-sm text-black hover:text-primary dark:text-white dark:hover:text-primary"
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="flex w-full items-center gap-2 px-2 py-1 text-sm text-black hover:text-primary dark:text-white dark:hover:text-primary"
+                    >
+                      Logout
+                    </button>
                   </div>
-                  <span className="hidden text-black dark:text-white lg:block">
-                    {user.name}
-                  </span>
-                </Link>
-                
-                <div className="invisible absolute right-0 top-full mt-2 w-40 rounded-md bg-white p-2 shadow-solid-5 group-hover:visible dark:bg-blacksection">
-                   <button 
-                    onClick={logout}
-                    className="flex w-full items-center gap-2 px-2 py-1 text-sm text-black hover:text-primary dark:text-white dark:hover:text-primary"
-                   >
-                     Logout
-                   </button>
                 </div>
               </div>
             ) : (
