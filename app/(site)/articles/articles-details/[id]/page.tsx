@@ -83,12 +83,12 @@ const SingleBlogPage = async ({ params }: { params: Promise<{ id: string }> }) =
                   />
                 </div>
 
-                {post.video_url && (
+                {post.video_path && (
                   <div className="mt-8">
                     <video
                       controls
                       className="w-full rounded-md"
-                      src={post.video_url}
+                      src={getImagePath(post.video_path)}
                     />
                   </div>
                 )}

@@ -150,9 +150,9 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
           {/* Header */}
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex-1">
-              {lesson.thumbnail_url && (
+              {lesson.thumbnail && (
                 <img
-                  src={getImagePath(lesson.thumbnail_url)}
+                  src={getImagePath(lesson.thumbnail)}
                   alt={lesson.title}
                   className="mb-6 w-full max-h-80 rounded-lg object-cover"
                 />
