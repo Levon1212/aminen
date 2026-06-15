@@ -11,7 +11,6 @@ export type OnlineLesson = {
   status: string;
   tags: string | null;
   thumbnail: string | null;
-  thumbnail_url: string | null;
   videos: VideoItem[];
   stream_urls: string[];
   is_purchased: boolean;

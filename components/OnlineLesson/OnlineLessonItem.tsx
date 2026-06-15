@@ -21,10 +21,10 @@ const OnlineLessonItem = ({ lesson }: { lesson: OnlineLesson }) => {
       viewport={{ once: true }}
       className="animate_top shadow-solid-8 dark:bg-blacksection flex flex-col rounded-lg bg-white p-6 pb-8 backdrop-blur"
     >
-      {lesson.thumbnail_url && (
+      {lesson.thumbnail && (
         <Link href={detailsPath} className="relative mb-4 block aspect-368/239 overflow-hidden rounded-md">
           <img
-            src={getImagePath(lesson.thumbnail_url)}
+            src={getImagePath(lesson.thumbnail)}
             alt={lesson.title}
             className="h-full w-full object-cover"
           />

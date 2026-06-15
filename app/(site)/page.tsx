@@ -43,8 +43,8 @@ function resolveImage(value: string | undefined | null, fallback: string): strin
   if (!value) return fallback;
   if (value.startsWith("http://") || value.startsWith("https://")) return value;
   if (value.startsWith("/")) return value;
-  const apiBase = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api").replace(/\/api\/?$/, "");
-  return `${apiBase}/storage/${value}`;
+  const storageBase = (process.env.NEXT_PUBLIC_STORAGE_URL || "http://127.0.0.1:8000/storage").replace(/\/$/, "");
+  return `${storageBase}/${value}`;
 }
 
 export default async function Home() {

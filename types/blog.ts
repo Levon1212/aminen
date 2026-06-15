@@ -10,9 +10,7 @@ export type Blog = {
   id: number;
   title: string;
   thumbnail: string;
-  thumbnail_url: string;
   video_path?: string | null;
-  video_url?: string | null;
   tags: string;
   description: string;
   created_at: string;
