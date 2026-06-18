@@ -1,16 +1,5 @@
 import { Metadata } from "next";
-import Hero from "@/components/Hero";
-import Feature from "@/components/Features";
-import About from "@/components/About";
-import FeaturesTab from "@/components/FeaturesTab";
-import FunFact from "@/components/FunFact";
-import Integration from "@/components/Integration";
-import CTA from "@/components/CTA";
-import FAQ from "@/components/FAQ";
-import Pricing from "@/components/Pricing";
-import Contact from "@/components/Contact";
-import Blog from "@/components/Blog";
-import Testimonial from "@/components/Testimonial";
+import CinematicHomepage from "@/components/Cinematic3D/CinematicHomepageLoader";
 
 export const revalidate = 300;
 
@@ -76,11 +65,6 @@ export default async function Home() {
     body2: s.about2_body,
   };
 
-  const featuresTabSettings = {
-    tabImage: resolveImage(s.features_tab_image, "/images/features/features-light-01.png"),
-    tabImageDark: resolveImage(s.features_tab_image_dark, "/images/features/features-dark-01.svg"),
-  };
-
   const ctaSettings = {
     title: s.cta_title,
     body: s.cta_body,
@@ -88,18 +72,13 @@ export default async function Home() {
 
   return (
     <main>
-      <Hero settings={heroSettings} />
-      <Feature />
-      <About settings={aboutSettings} />
-      <FeaturesTab settings={featuresTabSettings} />
-      <FunFact />
-      <Integration />
-      <CTA settings={ctaSettings} />
-      <FAQ />
-      <Testimonial />
-      <Pricing />
-      <Contact />
-      <Blog />
+      <CinematicHomepage
+        content={{
+          hero: heroSettings,
+          about: { name: aboutSettings.name, body: aboutSettings.body },
+          cta: ctaSettings,
+        }}
+      />
     </main>
   );
 }
