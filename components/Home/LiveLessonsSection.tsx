@@ -1,9 +1,17 @@
+import Link from "next/link";
 import type {
   LiveLessonHighlight,
   SectionContent,
   SectionTone,
 } from "@/types/homeSettings";
-import SectionShell from "./SectionShell";
+import SectionShell, {
+  arrowClass,
+  buttonMotion,
+  focusRing,
+  isExternal,
+} from "./SectionShell";
+import Reveal from "./Reveal";
+import { CheckIcon, VideoCallIcon, ArrowRightIcon } from "./icons";
 
 /** The only intentionally hardcoded copy on the page, per the section brief. */
 const HIGHLIGHTS: LiveLessonHighlight[] = [
@@ -20,52 +28,74 @@ const LiveLessonsSection = ({
   content: SectionContent;
   price: string;
   tone: SectionTone;
-}) => (
-  <SectionShell
-    tone={tone}
-    eyebrow={content.eyebrow}
-    title={content.title}
-    body={content.body}
-    ctaLabel={content.ctaLabel}
-    ctaHref={content.ctaHref}
-  >
-    <div className="mx-auto max-w-c-1016 rounded-2xl border border-stroke bg-white p-8 text-center shadow-solid-11 md:p-12">
-      <p className="text-sm font-semibold uppercase tracking-[0.2em] text-waterloo">
-        From
-      </p>
-      <p className="mt-2 text-[40px] font-bold leading-none text-primary md:text-[52px]">
-        ${price}
-      </p>
-      <p className="mt-2 text-base text-waterloo">per lesson</p>
+}) => {
+  const ctaClassName = `group mt-10 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-base font-medium text-white hover:bg-primaryho ${buttonMotion} ${focusRing.light}`;
 
-      <ul className="mx-auto mt-10 grid max-w-2xl gap-4 text-left sm:grid-cols-3 sm:gap-6 sm:text-center">
-        {HIGHLIGHTS.map((highlight) => (
-          <li
-            key={highlight}
-            className="flex items-start gap-3 rounded-xl bg-alabaster px-4 py-4 sm:flex-col sm:items-center sm:gap-2"
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              className="mt-0.5 shrink-0 text-primary sm:mt-0"
-              aria-hidden="true"
+  const ctaContent = (
+    <>
+      {content.ctaLabel}
+      <ArrowRightIcon className={arrowClass} />
+    </>
+  );
+
+  return (
+    <SectionShell
+      tone={tone}
+      surface="light-tint"
+      icon={<VideoCallIcon className="h-5 w-5" />}
+      showCta={false}
+      eyebrow={content.eyebrow}
+      title={content.title}
+      body={content.body}
+      ctaLabel={content.ctaLabel}
+      ctaHref={content.ctaHref}
+    >
+      <Reveal variant="scale">
+        <div className="max-w-c-1016 bg-ink-0 shadow-solid-7 mx-auto rounded-2xl p-8 text-center md:p-12">
+          <p className="text-waterloo text-sm font-semibold tracking-[0.2em] uppercase">
+            From
+          </p>
+          <p className="text-primary mt-2 text-[40px] leading-none font-bold md:text-[52px]">
+            ${price}
+          </p>
+          <p className="text-waterloo mt-2 text-base">per lesson</p>
+
+          <ul className="mx-auto mt-10 grid max-w-2xl gap-4 text-left sm:grid-cols-3 sm:gap-6 sm:text-center">
+            {HIGHLIGHTS.map((highlight, index) => (
+              // `as="li"` keeps the list semantics and the grid item intact.
+              <Reveal
+                key={highlight}
+                as="li"
+                variant="fade"
+                delay={index * 80}
+                className="bg-ink-100 flex items-start gap-3 rounded-xl px-4 py-4 sm:flex-col sm:items-center sm:gap-2"
+              >
+                <CheckIcon className="text-primary mt-0.5 h-5 w-5 shrink-0 sm:mt-0" />
+                <span className="text-base font-medium text-black">
+                  {highlight}
+                </span>
+              </Reveal>
+            ))}
+          </ul>
+
+          {isExternal(content.ctaHref) ? (
+            <a
+              href={content.ctaHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={ctaClassName}
             >
-              <path
-                d="M16.6667 5.83331L7.50004 15L3.33337 10.8333"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="text-base font-medium text-black">{highlight}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </SectionShell>
-);
+              {ctaContent}
+            </a>
+          ) : (
+            <Link href={content.ctaHref} className={ctaClassName}>
+              {ctaContent}
+            </Link>
+          )}
+        </div>
+      </Reveal>
+    </SectionShell>
+  );
+};
 
 export default LiveLessonsSection;

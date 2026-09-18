@@ -15,7 +15,6 @@ import type { OnlineLesson } from "@/types/online-lesson";
 import type {
   HeroContent,
   SectionContent,
-  SectionTone,
   SettingsMap,
 } from "@/types/homeSettings";
 
@@ -179,16 +178,16 @@ export default async function Home() {
     ? String(parsedPrice)
     : rawPrice;
 
-  // Only enabled sections are rendered, and the white / tinted rhythm is
-  // assigned over that filtered list so a disabled section leaves no gap.
-  const sections: { key: string; render: (tone: SectionTone) => ReactNode }[] =
-    [];
+  // Each band's tone is fixed by the design (dark, light, dark, light, dark,
+  // dark) rather than alternated, so a disabled section never inverts the ones
+  // after it. A section with `home_{key}_enabled = "0"` is simply not pushed.
+  const sections: { key: string; node: ReactNode }[] = [];
 
   if (online.enabled) {
     sections.push({
       key: "online",
-      render: (tone) => (
-        <OnlineLessonsSection content={online} lessons={lessons} tone={tone} />
+      node: (
+        <OnlineLessonsSection content={online} lessons={lessons} tone="dark" />
       ),
     });
   }
@@ -196,8 +195,8 @@ export default async function Home() {
   if (live.enabled) {
     sections.push({
       key: "live",
-      render: (tone) => (
-        <LiveLessonsSection content={live} price={livePrice} tone={tone} />
+      node: (
+        <LiveLessonsSection content={live} price={livePrice} tone="light" />
       ),
     });
   }
@@ -205,11 +204,11 @@ export default async function Home() {
   if (articlesSection.enabled) {
     sections.push({
       key: "articles",
-      render: (tone) => (
+      node: (
         <ArticlesSection
           content={articlesSection}
           articles={articles}
-          tone={tone}
+          tone="dark"
         />
       ),
     });
@@ -218,17 +217,15 @@ export default async function Home() {
   if (kids.enabled) {
     sections.push({
       key: "kids",
-      render: (tone) => (
-        <KidsSection content={kids} articles={kidsArticles} tone={tone} />
-      ),
+      node: <KidsSection content={kids} articles={kidsArticles} tone="light" />,
     });
   }
 
   if (youtube.enabled) {
     sections.push({
       key: "youtube",
-      render: (tone) => (
-        <YouTubeSection content={youtube} handle={youtubeHandle} tone={tone} />
+      node: (
+        <YouTubeSection content={youtube} handle={youtubeHandle} tone="dark" />
       ),
     });
   }
@@ -236,11 +233,11 @@ export default async function Home() {
   if (amazon.enabled) {
     sections.push({
       key: "amazon",
-      render: (tone) => (
+      node: (
         <AmazonSection
           content={amazon}
           bookTitle={amazonBookTitle}
-          tone={tone}
+          tone="dark"
         />
       ),
     });
@@ -249,10 +246,8 @@ export default async function Home() {
   return (
     <main>
       <Hero content={hero} />
-      {sections.map((entry, index) => (
-        <Fragment key={entry.key}>
-          {entry.render(index % 2 === 0 ? "tint" : "white")}
-        </Fragment>
+      {sections.map((entry) => (
+        <Fragment key={entry.key}>{entry.node}</Fragment>
       ))}
     </main>
   );

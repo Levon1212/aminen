@@ -6,8 +6,12 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import { getImagePath } from "@/libs/imageHelper";
+import { ExternalLinkIcon } from "@/components/Home/icons";
 
 import menuData from "./menuData";
+
+const FOCUS =
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-soft";
 
 const Header = () => {
   const [navigationOpen, setNavigationOpen] = useState(false);
@@ -32,13 +36,18 @@ const Header = () => {
 
   return (
     <header
-      className={`sticky left-0 top-0 z-999 w-full border-b border-stroke bg-white transition-shadow duration-200 ${
-        stickyMenu ? "shadow-solid-2" : ""
+      className={`sticky left-0 top-0 z-999 w-full border-b transition-colors duration-200 ${
+        stickyMenu
+          ? "border-navy-line bg-navy-800/90 backdrop-blur-md"
+          : "border-transparent bg-navy-900"
       }`}
     >
       <div className="mx-auto flex max-w-c-1390 items-center justify-between gap-4 px-4 py-4 md:px-8">
         {/* Logo */}
-        <Link href="/" className="flex shrink-0 items-center gap-3">
+        <Link
+          href="/"
+          className={`flex shrink-0 items-center gap-3 rounded-lg ${FOCUS}`}
+        >
           <Image
             src="/images/logo/logo.jpg"
             alt="HayLang"
@@ -47,7 +56,7 @@ const Header = () => {
             className="rounded-lg"
             priority
           />
-          <span className="hidden text-metatitle3 font-bold tracking-tight text-black sm:block">
+          <span className="hidden text-lg font-bold tracking-tight text-onnavy-strong sm:block">
             HayLang
           </span>
         </Link>
@@ -61,13 +70,16 @@ const Header = () => {
                   href={menuItem.path ?? "/"}
                   target={menuItem.newTab ? "_blank" : undefined}
                   rel={menuItem.newTab ? "noopener noreferrer" : undefined}
-                  className={`text-regular font-medium transition-colors duration-200 ${
+                  className={`inline-flex items-center gap-1.5 border-b-2 pb-1 text-base font-medium transition-colors duration-200 ${FOCUS} ${
                     isActive(menuItem.path)
-                      ? "text-primary"
-                      : "text-black hover:text-primary"
+                      ? "border-primary text-primary-soft"
+                      : "border-transparent text-onnavy-muted hover:text-onnavy-strong"
                   }`}
                 >
                   {menuItem.title}
+                  {menuItem.newTab ? (
+                    <ExternalLinkIcon className="h-3.5 w-3.5 text-onnavy-faint" />
+                  ) : null}
                 </Link>
               </li>
             ))}
@@ -84,7 +96,7 @@ const Header = () => {
             aria-label="Toggle navigation menu"
             aria-expanded={navigationOpen}
             onClick={() => setNavigationOpen(!navigationOpen)}
-            className="flex h-10 w-10 items-center justify-center rounded-lg border border-stroke text-black transition-colors duration-200 hover:border-primary hover:text-primary lg:hidden"
+            className={`flex h-10 w-10 items-center justify-center rounded-lg border border-navy-line text-onnavy-muted transition-colors duration-200 hover:border-primary-soft hover:text-onnavy-strong lg:hidden ${FOCUS}`}
           >
             {navigationOpen ? (
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -111,7 +123,7 @@ const Header = () => {
 
       {/* Mobile panel */}
       {navigationOpen && (
-        <div className="border-t border-stroke bg-white lg:hidden">
+        <div className="border-t border-navy-line bg-navy-800 lg:hidden">
           <div className="mx-auto max-w-c-1390 px-4 py-5 md:px-8">
             <ul className="flex flex-col gap-1">
               {menuData.map((menuItem) => (
@@ -121,19 +133,22 @@ const Header = () => {
                     target={menuItem.newTab ? "_blank" : undefined}
                     rel={menuItem.newTab ? "noopener noreferrer" : undefined}
                     onClick={() => setNavigationOpen(false)}
-                    className={`block rounded-lg px-3 py-2.5 text-regular font-medium transition-colors duration-200 ${
+                    className={`flex items-center gap-1.5 rounded-lg px-3 py-2.5 text-base font-medium transition-colors duration-200 ${FOCUS} ${
                       isActive(menuItem.path)
-                        ? "bg-zumthor text-primary"
-                        : "text-black hover:bg-alabaster hover:text-primary"
+                        ? "bg-navy-700 text-primary-soft"
+                        : "text-onnavy-muted hover:bg-navy-700 hover:text-onnavy-strong"
                     }`}
                   >
                     {menuItem.title}
+                    {menuItem.newTab ? (
+                      <ExternalLinkIcon className="h-3.5 w-3.5 text-onnavy-faint" />
+                    ) : null}
                   </Link>
                 </li>
               ))}
             </ul>
 
-            <div className="mt-5 border-t border-stroke pt-5">
+            <div className="mt-5 border-t border-navy-line pt-5">
               <AuthArea
                 user={user}
                 logout={logout}
@@ -164,9 +179,9 @@ const AuthArea = ({
         <Link
           href="/profile"
           onClick={onNavigate}
-          className="flex items-center gap-2.5 text-regular font-medium text-black transition-colors duration-200 hover:text-primary"
+          className={`flex items-center gap-2.5 rounded-full text-base font-medium text-onnavy-strong transition-colors duration-200 hover:text-primary-soft ${FOCUS}`}
         >
-          <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full bg-stroke">
+          <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full bg-navy-700 ring-2 ring-navy-600">
             <Image
               src={
                 user.avatar_url
@@ -183,7 +198,7 @@ const AuthArea = ({
         </Link>
         <button
           onClick={logout}
-          className="text-regular font-medium text-waterloo transition-colors duration-200 hover:text-primary"
+          className={`rounded-full text-base font-medium text-onnavy-muted transition-colors duration-200 hover:text-onnavy-strong ${FOCUS}`}
         >
           Log out
         </button>
@@ -196,14 +211,14 @@ const AuthArea = ({
       <Link
         href="/auth/signin"
         onClick={onNavigate}
-        className="rounded-full px-4 py-2 text-regular font-medium text-black transition-colors duration-200 hover:text-primary"
+        className={`rounded-full px-4 py-2 text-base font-medium text-onnavy-muted transition-colors duration-200 hover:text-onnavy-strong ${FOCUS}`}
       >
         Sign In
       </Link>
       <Link
         href="/auth/signup"
         onClick={onNavigate}
-        className="rounded-full bg-primary px-5 py-2 text-regular font-medium text-white transition-colors duration-200 hover:bg-primaryho"
+        className={`rounded-full bg-primary px-5 py-2 text-base font-medium text-white transition-colors duration-200 hover:bg-primaryho ${FOCUS}`}
       >
         Sign Up
       </Link>

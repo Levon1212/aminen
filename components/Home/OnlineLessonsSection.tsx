@@ -3,11 +3,18 @@ import Link from "next/link";
 import { getImagePath } from "@/libs/imageHelper";
 import type { OnlineLesson } from "@/types/online-lesson";
 import type { SectionContent, SectionTone } from "@/types/homeSettings";
-import SectionShell from "./SectionShell";
+import SectionShell, { focusRing } from "./SectionShell";
+import Reveal from "./Reveal";
+import { PlayCircleIcon } from "./icons";
 
 /** Lesson descriptions are plain text, but strip markup defensively. */
 const toPlainText = (value: string | null): string =>
-  value ? value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim() : "";
+  value
+    ? value
+        .replace(/<[^>]*>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim()
+    : "";
 
 const OnlineLessonsSection = ({
   content,
@@ -20,6 +27,8 @@ const OnlineLessonsSection = ({
 }) => (
   <SectionShell
     tone={tone}
+    surface="dark"
+    icon={<PlayCircleIcon className="h-5 w-5" />}
     eyebrow={content.eyebrow}
     title={content.title}
     body={content.body}
@@ -28,44 +37,52 @@ const OnlineLessonsSection = ({
   >
     {lessons.length > 0 ? (
       <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
-        {lessons.map((lesson) => {
+        {lessons.map((lesson, index) => {
           const detailsPath = `/online-lessons/details/${lesson.id}`;
           const description = toPlainText(lesson.description);
 
           return (
-            <Link
+            // The wrapper is the grid item, so the card needs `h-full` to keep
+            // stretching to the row height the way it did before.
+            <Reveal
               key={lesson.id}
-              href={detailsPath}
-              className="group flex flex-col overflow-hidden rounded-2xl border border-stroke bg-white shadow-solid-11 transition duration-200 hover:-translate-y-1 hover:shadow-solid-9"
+              variant="up"
+              delay={Math.min(index * 90, 270)}
+              className="h-full"
             >
-              <div className="relative aspect-16/10 w-full overflow-hidden bg-zumthor">
-                {lesson.thumbnail ? (
-                  <Image
-                    src={getImagePath(lesson.thumbnail)}
-                    alt={lesson.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                ) : null}
-              </div>
+              <Link
+                href={detailsPath}
+                className={`group bg-ink-0 shadow-solid-9 hover:shadow-solid-7 flex h-full flex-col overflow-hidden rounded-2xl transition duration-200 ease-out hover:-translate-y-1 ${focusRing.dark}`}
+              >
+                <div className="bg-zumthor relative aspect-16/10 w-full overflow-hidden">
+                  {lesson.thumbnail ? (
+                    <Image
+                      src={getImagePath(lesson.thumbnail)}
+                      alt={lesson.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition-transform duration-200 ease-out group-hover:scale-[1.04]"
+                    />
+                  ) : null}
+                </div>
 
-              <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-lg font-semibold leading-snug text-black transition-colors duration-200 group-hover:text-primary">
-                  {lesson.title}
-                </h3>
+                <div className="flex flex-1 flex-col p-6">
+                  <h3 className="group-hover:text-primary text-lg leading-snug font-semibold text-black transition-colors duration-200">
+                    {lesson.title}
+                  </h3>
 
-                {description ? (
-                  <p className="mt-3 line-clamp-2 text-base leading-relaxed text-waterloo">
-                    {description}
-                  </p>
-                ) : null}
+                  {description ? (
+                    <p className="text-waterloo mt-3 line-clamp-2 text-base leading-relaxed">
+                      {description}
+                    </p>
+                  ) : null}
 
-                <span className="mt-6 inline-block text-lg font-bold text-primary">
-                  ${Number(lesson.price).toFixed(2)}
-                </span>
-              </div>
-            </Link>
+                  <span className="bg-primary mt-6 inline-flex w-fit items-center rounded-full px-4 py-1.5 text-base font-bold text-white">
+                    ${Number(lesson.price).toFixed(2)}
+                  </span>
+                </div>
+              </Link>
+            </Reveal>
           );
         })}
       </div>

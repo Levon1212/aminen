@@ -31,8 +31,26 @@ export type SectionContent = {
   image: string;
 };
 
-/** Background alternation, assigned by the page over the enabled sections. */
-export type SectionTone = "white" | "tint";
+/**
+ * Whether a band is authored on navy or on a light "island" surface. It drives
+ * every text/border colour inside the section; the page assigns it per section.
+ */
+export type SectionTone = "dark" | "light";
+
+/**
+ * The exact band background. `tone` says which palette to read text from,
+ * `surface` picks the shade within it so neighbouring bands stay legible
+ * without any divider graphic.
+ */
+export type SectionSurface =
+  | "dark" // navy-900
+  | "dark-alt" // navy-800
+  | "light" // ink-0
+  | "light-tint" // ink-100
+  | "light-warm"; // ink-0 under a soft warm wash
+
+/** Which accent the eyebrow chip and CTA of a section are tinted with. */
+export type SectionAccent = "primary" | "kids";
 
 /** The three static selling points rendered by the live-lessons panel. */
 export type LiveLessonHighlight = string;
