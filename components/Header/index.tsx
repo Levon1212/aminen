@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import { getImagePath } from "@/libs/imageHelper";
 
-import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
 
 const Header = () => {
@@ -139,8 +138,6 @@ const Header = () => {
           </nav>
 
           <div className="mt-7 flex items-center gap-6 xl:mt-0">
-            <ThemeToggler />
-
             {user ? (
               <div className="group relative flex items-center">
                 <div className="relative h-10 w-10 cursor-pointer overflow-hidden rounded-full">
