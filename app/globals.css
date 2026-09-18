@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -27,6 +27,30 @@
   --color-alabaster: #fbfbfb;
   --color-zumthor: #edf5ff;
   --color-socialicon: #d1d8e0;
+
+  /* Navy surfaces — the page background and its dark bands. */
+  --color-navy-900: #0b1220;
+  --color-navy-800: #101b33;
+  --color-navy-700: #16223f;
+  --color-navy-600: #1e2d4f;
+  --color-navy-line: #26375c;
+
+  /* Light "island" card / band surfaces that sit on the navy. */
+  --color-ink-100: #f4f7ff;
+  --color-ink-0: #ffffff;
+
+  /* Text on navy. Body copy never goes dimmer than onnavy-muted. */
+  --color-onnavy-strong: #eef3ff;
+  --color-onnavy-muted: #9db0d4;
+  --color-onnavy-faint: #6c82ac;
+
+  /* Brand accents used by the YouTube, kids and Amazon bands. */
+  --color-accent-youtube: #ff3b30;
+  --color-accent-kids: #ffb020;
+  --color-accent-amazon: #ff9900;
+
+  /* Brighter primary for links/icons that must read on navy. */
+  --color-primary-soft: #3d8bff;
 
   --text-metatitle: 12px, 20px;
   --text-sectiontitle: 14px, 22px;
@@ -102,10 +126,7 @@
 }
 
 @utility dropdown {
-  @apply -left-7.5 mt-2 hidden min-w-max flex-col gap-4 rounded-md border border-stroke bg-white px-8 py-5 shadow-solid-13 duration-300 ease-in dark:border-strokedark dark:bg-black xl:invisible xl:absolute
-    xl:mt-0 xl:flex xl:w-[250px] xl:translate-y-10 xl:opacity-0
-    xl:before:absolute xl:before:-top-1.5 xl:before:left-10 xl:before:h-3 xl:before:w-3 xl:before:rotate-45 xl:before:border-l xl:before:border-t xl:before:border-stroke xl:before:bg-white xl:group-hover:visible xl:group-hover:translate-y-6.5 
-    xl:group-hover:opacity-100 xl:dark:before:border-strokedark xl:dark:before:bg-black;
+  @apply border-stroke shadow-solid-13 dark:border-strokedark xl:before:border-stroke xl:dark:before:border-strokedark -left-7.5 mt-2 hidden min-w-max flex-col gap-4 rounded-md border bg-white px-8 py-5 duration-300 ease-in xl:invisible xl:absolute xl:mt-0 xl:flex xl:w-[250px] xl:translate-y-10 xl:opacity-0 xl:group-hover:visible xl:group-hover:translate-y-6.5 xl:group-hover:opacity-100 xl:before:absolute xl:before:-top-1.5 xl:before:left-10 xl:before:h-3 xl:before:w-3 xl:before:rotate-45 xl:before:border-t xl:before:border-l xl:before:bg-white dark:bg-black xl:dark:before:bg-black;
 }
 
 @utility no-scrollbar {
@@ -126,10 +147,10 @@
   /* third-party libraries CSS */
 
   .testimonial-01 .swiper-pagination-bullet {
-    @apply h-2.5 w-2.5 bg-stroke opacity-100;
+    @apply bg-stroke h-2.5 w-2.5 opacity-100;
   }
   .testimonial-01 .swiper-pagination-bullet-active {
-    @apply w-5 rounded-full bg-primary;
+    @apply bg-primary w-5 rounded-full;
   }
 
   .testimonial-01 .swiper-pagination {
@@ -143,7 +164,7 @@
 
 @layer base {
   body {
-    @apply relative z-1 font-inter text-regular font-normal text-waterloo dark:text-manatee;
+    @apply font-inter text-regular text-waterloo dark:text-manatee relative z-1 font-normal;
   }
 }
 
@@ -156,11 +177,11 @@
 }
 
 .blog-details-docs {
-  @apply rounded-lg border border-white p-7.5 shadow-solid-3 transition-all dark:border-strokedark  dark:bg-blacksection xl:p-12.5;
+  @apply shadow-solid-3 dark:border-strokedark dark:bg-blacksection rounded-lg border border-white p-7.5 transition-all xl:p-12.5;
 }
 
 .blog-details p {
-  @apply mb-8 text-base leading-relaxed text-titlebgdark dark:text-waterloo;
+  @apply text-titlebgdark dark:text-waterloo mb-8 text-base leading-relaxed;
 }
 
 .blog-details p strong {
@@ -168,66 +189,186 @@
 }
 .blog-details h3 strong,
 .blog-details h3 {
-  @apply mb-10 text-xl font-semibold! leading-tight text-black dark:text-white sm:text-2xl sm:leading-tight lg:text-xl lg:leading-tight xl:text-2xl xl:leading-tight;
+  @apply mb-10 text-xl leading-tight font-semibold! text-black sm:text-2xl sm:leading-tight lg:text-xl lg:leading-tight xl:text-2xl xl:leading-tight dark:text-white;
 }
 
 .blog-details h4 strong,
 .blog-details h4 {
-  @apply text-xl font-semibold! leading-tight text-black dark:text-white sm:text-2xl sm:leading-tight lg:text-xl lg:leading-tight xl:text-2xl xl:leading-tight;
+  @apply text-xl leading-tight font-semibold! text-black sm:text-2xl sm:leading-tight lg:text-xl lg:leading-tight xl:text-2xl xl:leading-tight dark:text-white;
 }
 
 .blog-details h5 strong,
 .blog-details h5 {
-  @apply mb-3 text-lg font-semibold! leading-tight text-black dark:text-white sm:text-xl;
+  @apply mb-3 text-lg leading-tight font-semibold! text-black sm:text-xl dark:text-white;
 }
 
 .blog-details h1 {
-  @apply mb-4 text-3xl font-bold! leading-tight! text-black dark:text-white sm:text-4xl md:text-[45px] lg:text-4xl xl:text-[45px];
+  @apply mb-4 text-3xl leading-tight! font-bold! text-black sm:text-4xl md:text-[45px] lg:text-4xl xl:text-[45px] dark:text-white;
 }
 .blog-details h2 strong,
 .blog-details h2 {
-  @apply mb-4 text-[26px] font-bold! leading-tight! text-black dark:text-white sm:text-3xl md:text-4xl;
+  @apply mb-4 text-[26px] leading-tight! font-bold! text-black sm:text-3xl md:text-4xl dark:text-white;
 }
 
 .blog-details ul,
 .blog-details ol {
-  @apply mb-10 list-inside list-disc text-titlebgdark;
+  @apply text-titlebgdark mb-10 list-inside list-disc;
 }
 
 .blog-details li,
 .blog-details li {
-  @apply mb-2 text-base text-titlebgdark dark:text-waterloo;
+  @apply text-titlebgdark dark:text-waterloo mb-2 text-base;
 }
 
 .blog-details blockquote {
-  @apply relative z-10 mb-10 overflow-hidden rounded-xs bg-manatee p-8 text-center text-base font-medium italic text-black dark:bg-titlebgdark md:py-9 lg:px-10;
+  @apply bg-manatee dark:bg-titlebgdark relative z-10 mb-10 overflow-hidden rounded-xs p-8 text-center text-base font-medium text-black italic md:py-9 lg:px-10;
 }
 
 .blog-details blockquote::after {
   content: "";
-  @apply absolute bottom-0 right-0 h-20 w-20 bg-[url(/images/blog/quote-shape-2.svg)] bg-contain bg-right-bottom bg-no-repeat;
+  @apply absolute right-0 bottom-0 h-20 w-20 bg-[url(/images/blog/quote-shape-2.svg)] bg-contain bg-right-bottom bg-no-repeat;
 }
 
 .blog-details blockquote::before {
   content: "";
-  @apply absolute left-0 top-0 h-[106px] w-[140px] bg-[url(/images/blog/quote-shape-1.svg)] bg-contain bg-left-top bg-no-repeat dark:bg-[url(/images/blog/quote-shape-1.svg)];
+  @apply absolute top-0 left-0 h-[106px] w-[140px] bg-[url(/images/blog/quote-shape-1.svg)] bg-contain bg-left-top bg-no-repeat dark:bg-[url(/images/blog/quote-shape-1.svg)];
 }
 .blog-details iframe {
-  @apply w-full aspect-video mb-8 rounded-lg;
+  @apply mb-8 aspect-video w-full rounded-lg;
 }
 
 pre {
-  @apply relative mb-2 rounded-lg bg-strokedark px-4 py-2;
+  @apply bg-strokedark relative mb-2 rounded-lg px-4 py-2;
 }
 .prism-copy-button {
-  @apply absolute right-2 top-2 h-[26px] rounded-sm bg-white px-4 text-primary;
+  @apply text-primary absolute top-2 right-2 h-[26px] rounded-sm bg-white px-4;
 }
 
 .active-tab {
-  @apply bg-stroke text-black dark:bg-blackho dark:text-white;
+  @apply bg-stroke dark:bg-blackho text-black dark:text-white;
 }
 
 .backdrop-blur {
   background: #1f8a97 !important;
   backdrop-filter: blur(20px);
+}
+
+/* ==========================================================================
+   Homepage motion
+   --------------------------------------------------------------------------
+   Entrances and hover states only. Everything here animates `opacity` and
+   `transform` exclusively, so none of it can move the layout or cost CLS.
+   ========================================================================== */
+
+/* --- Scroll entrances, driven by components/Home/Reveal.tsx --------------- */
+
+/*
+  These classes are added by JS after mount. The server never renders them, so
+  with JavaScript disabled the content is simply visible.
+*/
+.reveal {
+  opacity: 0;
+}
+
+.reveal-up {
+  transform: translateY(20px);
+}
+
+.reveal-scale {
+  transform: scale(0.97);
+}
+
+/* `reveal-fade` carries no transform — opacity alone. */
+
+/*
+  The transition deliberately lives on `is-animating`, not on `.reveal`. The
+  hidden state is applied to an element the browser has already painted, so if
+  `.reveal` carried the transition the element would fade *out* over 500ms on
+  mount. `is-animating` is added one frame before `is-visible`, which gives the
+  entrance its transition and keeps the initial hide instant. It also scopes
+  `will-change` to the moment it is useful — it comes off once the run ends.
+*/
+.reveal.is-animating {
+  transition-property: opacity, transform;
+  transition-duration: 500ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Hero entrance -------------------------------------------------------- */
+
+/*
+  The hero is above the fold, so it plays on load rather than on intersection —
+  pure CSS, which also means it runs with JavaScript disabled.
+*/
+@keyframes home-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-enter {
+  animation: home-rise 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-delay-80 {
+  animation-delay: 80ms;
+}
+.hero-delay-160 {
+  animation-delay: 160ms;
+}
+.hero-delay-200 {
+  animation-delay: 200ms;
+}
+.hero-delay-240 {
+  animation-delay: 240ms;
+}
+.hero-delay-320 {
+  animation-delay: 320ms;
+}
+
+/*
+  The one loop on the page: the decorative glow behind the hero image breathes
+  between 0.85 and 1.0 opacity over 8s. Nothing else moves, and it is switched
+  off entirely under reduced motion.
+*/
+@keyframes home-glow-breathe {
+  from {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-glow {
+  animation: home-glow-breathe 8s ease-in-out infinite alternate;
+}
+
+/* --- Global motion guard -------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Drop the loop outright rather than freezing it mid-cycle. */
+  .hero-glow {
+    animation: none;
+  }
 }
