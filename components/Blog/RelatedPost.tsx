@@ -16,8 +16,8 @@ const RelatedPost = async ({ isKids = false }: { isKids?: boolean }) => {
 
   return (
     <>
-      <div className="animate_top rounded-md border border-stroke bg-white p-9 shadow-solid-13 dark:border-strokedark dark:bg-blacksection">
-        <h4 className="mb-7.5 text-2xl font-semibold text-black dark:text-white">
+      <div className="rounded-md border border-line bg-surface p-9 shadow-solid-13">
+        <h4 className="mb-7.5 text-2xl font-semibold text-ink">
           Related Posts
         </h4>
 
@@ -36,7 +36,7 @@ const RelatedPost = async ({ isKids = false }: { isKids?: boolean }) => {
                   "No image"
                 )}
               </div>
-              <h5 className="text-md font-medium text-black transition-all duration-300 hover:text-primary dark:text-white dark:hover:text-primary">
+              <h5 className="font-medium text-ink transition-all duration-300 hover:text-primary-600">
                 <Link href={isKids ? `/kids-articles/articles-details/${post.id}` : `/articles/articles-details/${post.id}`}>
                   {" "}
                   {post.title.slice(0, 40)}...

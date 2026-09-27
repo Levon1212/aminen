@@ -52,9 +52,9 @@ const OnlineLessonsSection = ({
             >
               <Link
                 href={detailsPath}
-                className={`group bg-ink-0 shadow-solid-9 hover:shadow-solid-7 flex h-full flex-col overflow-hidden rounded-2xl transition duration-200 ease-out hover:-translate-y-1 ${focusRing.dark}`}
+                className={`group bg-surface shadow-solid-9 hover:shadow-solid-7 flex h-full flex-col overflow-hidden rounded-2xl transition duration-200 ease-out hover:-translate-y-1 ${focusRing.dark}`}
               >
-                <div className="bg-zumthor relative aspect-16/10 w-full overflow-hidden">
+                <div className="bg-primary-50 relative aspect-16/10 w-full overflow-hidden">
                   {lesson.thumbnail ? (
                     <Image
                       src={getImagePath(lesson.thumbnail)}
@@ -67,17 +67,17 @@ const OnlineLessonsSection = ({
                 </div>
 
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="group-hover:text-primary text-lg leading-snug font-semibold text-black transition-colors duration-200">
+                  <h3 className="group-hover:text-primary-600 text-lg leading-snug font-semibold text-ink transition-colors duration-200">
                     {lesson.title}
                   </h3>
 
                   {description ? (
-                    <p className="text-waterloo mt-3 line-clamp-2 text-base leading-relaxed">
+                    <p className="text-muted mt-3 line-clamp-2 text-base leading-relaxed">
                       {description}
                     </p>
                   ) : null}
 
-                  <span className="bg-primary mt-6 inline-flex w-fit items-center rounded-full px-4 py-1.5 text-base font-bold text-white">
+                  <span className="bg-primary-600 mt-6 inline-flex w-fit items-center rounded-full px-4 py-1.5 text-base font-bold text-white">
                     ${Number(lesson.price).toFixed(2)}
                   </span>
                 </div>

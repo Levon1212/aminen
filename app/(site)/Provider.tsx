@@ -3,7 +3,7 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ScrollToTop";
-import { ThemeProvider } from "next-themes";
+import { MotionConfig } from "framer-motion";
 import ToasterContext from "../context/ToastContext";
 import { AuthProvider } from "../context/AuthContext";
 import { useEffect, useState } from "react";
@@ -42,12 +42,7 @@ export default function ClientLayout({
     };
 
     return (
-        <ThemeProvider
-            enableSystem={false}
-            attribute="class"
-            defaultTheme="light"
-            forcedTheme="light"
-        >
+        <MotionConfig reducedMotion="user">
             <AuthProvider>
                 <Header />
                 <ToasterContext />
@@ -55,6 +50,6 @@ export default function ClientLayout({
                 <Footer settings={footerSettings} />
                 <ScrollToTop />
             </AuthProvider>
-        </ThemeProvider>
+        </MotionConfig>
     );
 }

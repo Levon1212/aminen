@@ -11,7 +11,7 @@ import { ExternalLinkIcon } from "@/components/Home/icons";
 import menuData from "./menuData";
 
 const FOCUS =
-  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-soft";
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400";
 
 const Header = () => {
   const [navigationOpen, setNavigationOpen] = useState(false);
@@ -38,8 +38,8 @@ const Header = () => {
     <header
       className={`sticky left-0 top-0 z-999 w-full border-b transition-colors duration-200 ${
         stickyMenu
-          ? "border-navy-line bg-navy-800/90 backdrop-blur-md"
-          : "border-transparent bg-navy-900"
+          ? "border-on-navy/15 bg-navy/90 backdrop-blur-md"
+          : "border-transparent bg-navy"
       }`}
     >
       <div className="mx-auto flex max-w-c-1390 items-center justify-between gap-4 px-4 py-4 md:px-8">
@@ -56,7 +56,7 @@ const Header = () => {
             className="rounded-lg"
             priority
           />
-          <span className="hidden text-lg font-bold tracking-tight text-onnavy-strong sm:block">
+          <span className="hidden text-lg font-bold tracking-tight text-on-navy sm:block">
             HayLang
           </span>
         </Link>
@@ -72,13 +72,13 @@ const Header = () => {
                   rel={menuItem.newTab ? "noopener noreferrer" : undefined}
                   className={`inline-flex items-center gap-1.5 border-b-2 pb-1 text-base font-medium transition-colors duration-200 ${FOCUS} ${
                     isActive(menuItem.path)
-                      ? "border-primary text-primary-soft"
-                      : "border-transparent text-onnavy-muted hover:text-onnavy-strong"
+                      ? "border-primary-300 text-on-navy"
+                      : "border-transparent text-on-navy-muted hover:text-on-navy"
                   }`}
                 >
                   {menuItem.title}
                   {menuItem.newTab ? (
-                    <ExternalLinkIcon className="h-3.5 w-3.5 text-onnavy-faint" />
+                    <ExternalLinkIcon className="h-3.5 w-3.5 text-on-navy-muted" />
                   ) : null}
                 </Link>
               </li>
@@ -96,7 +96,7 @@ const Header = () => {
             aria-label="Toggle navigation menu"
             aria-expanded={navigationOpen}
             onClick={() => setNavigationOpen(!navigationOpen)}
-            className={`flex h-10 w-10 items-center justify-center rounded-lg border border-navy-line text-onnavy-muted transition-colors duration-200 hover:border-primary-soft hover:text-onnavy-strong lg:hidden ${FOCUS}`}
+            className={`flex h-10 w-10 items-center justify-center rounded-lg border border-on-navy/15 text-on-navy-muted transition-colors duration-200 hover:border-primary-300 hover:text-on-navy lg:hidden ${FOCUS}`}
           >
             {navigationOpen ? (
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -123,7 +123,7 @@ const Header = () => {
 
       {/* Mobile panel */}
       {navigationOpen && (
-        <div className="border-t border-navy-line bg-navy-800 lg:hidden">
+        <div className="border-t border-on-navy/15 bg-navy lg:hidden">
           <div className="mx-auto max-w-c-1390 px-4 py-5 md:px-8">
             <ul className="flex flex-col gap-1">
               {menuData.map((menuItem) => (
@@ -135,20 +135,20 @@ const Header = () => {
                     onClick={() => setNavigationOpen(false)}
                     className={`flex items-center gap-1.5 rounded-lg px-3 py-2.5 text-base font-medium transition-colors duration-200 ${FOCUS} ${
                       isActive(menuItem.path)
-                        ? "bg-navy-700 text-primary-soft"
-                        : "text-onnavy-muted hover:bg-navy-700 hover:text-onnavy-strong"
+                        ? "bg-navy-hover text-on-navy"
+                        : "text-on-navy-muted hover:bg-navy-hover hover:text-on-navy"
                     }`}
                   >
                     {menuItem.title}
                     {menuItem.newTab ? (
-                      <ExternalLinkIcon className="h-3.5 w-3.5 text-onnavy-faint" />
+                      <ExternalLinkIcon className="h-3.5 w-3.5 text-on-navy-muted" />
                     ) : null}
                   </Link>
                 </li>
               ))}
             </ul>
 
-            <div className="mt-5 border-t border-navy-line pt-5">
+            <div className="mt-5 border-t border-on-navy/15 pt-5">
               <AuthArea
                 user={user}
                 logout={logout}
@@ -179,9 +179,9 @@ const AuthArea = ({
         <Link
           href="/profile"
           onClick={onNavigate}
-          className={`flex items-center gap-2.5 rounded-full text-base font-medium text-onnavy-strong transition-colors duration-200 hover:text-primary-soft ${FOCUS}`}
+          className={`flex items-center gap-2.5 rounded-full text-base font-medium text-on-navy transition-colors duration-200 hover:text-primary-200 ${FOCUS}`}
         >
-          <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full bg-navy-700 ring-2 ring-navy-600">
+          <span className="relative block h-9 w-9 shrink-0 overflow-hidden rounded-full bg-navy-hover ring-2 ring-primary-700">
             <Image
               src={
                 user.avatar_url
@@ -198,7 +198,7 @@ const AuthArea = ({
         </Link>
         <button
           onClick={logout}
-          className={`rounded-full text-base font-medium text-onnavy-muted transition-colors duration-200 hover:text-onnavy-strong ${FOCUS}`}
+          className={`rounded-full text-base font-medium text-on-navy-muted transition-colors duration-200 hover:text-on-navy ${FOCUS}`}
         >
           Log out
         </button>
@@ -211,14 +211,14 @@ const AuthArea = ({
       <Link
         href="/auth/signin"
         onClick={onNavigate}
-        className={`rounded-full px-4 py-2 text-base font-medium text-onnavy-muted transition-colors duration-200 hover:text-onnavy-strong ${FOCUS}`}
+        className={`rounded-full px-4 py-2 text-base font-medium text-on-navy-muted transition-colors duration-200 hover:text-on-navy ${FOCUS}`}
       >
         Sign In
       </Link>
       <Link
         href="/auth/signup"
         onClick={onNavigate}
-        className={`rounded-full bg-primary px-5 py-2 text-base font-medium text-white transition-colors duration-200 hover:bg-primaryho ${FOCUS}`}
+        className={`rounded-full bg-primary-600 px-5 py-2 text-base font-medium text-white transition-colors duration-200 hover:bg-primary-700 ${FOCUS}`}
       >
         Sign Up
       </Link>

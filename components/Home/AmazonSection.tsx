@@ -24,7 +24,7 @@ const AmazonSection = ({
       <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal variant="scale" delay={120}>
           <div className="flex justify-center lg:justify-start">
-            <div className="shadow-navy-900/80 relative aspect-2/3 w-full max-w-[19rem] overflow-hidden rounded-xl shadow-2xl">
+            <div className="shadow-navy/80 relative aspect-2/3 w-full max-w-[19rem] overflow-hidden rounded-xl shadow-2xl">
               <Image
                 src={content.image}
                 alt={bookTitle}
@@ -44,13 +44,13 @@ const AmazonSection = ({
               label={content.eyebrow}
               className="justify-center lg:justify-start"
             />
-            <h2 className="text-onnavy-strong text-[28px] leading-tight font-bold sm:text-[34px] lg:text-[40px] lg:leading-[52px]">
+            <h2 className="text-on-navy text-[28px] leading-tight font-bold sm:text-[34px] lg:text-[40px] lg:leading-[52px]">
               {content.title}
             </h2>
-            <p className="text-onnavy-strong mt-4 text-lg font-semibold">
+            <p className="text-on-navy mt-4 text-lg font-semibold">
               {bookTitle}
             </p>
-            <p className="text-onnavy-muted mx-auto mt-5 max-w-xl text-base leading-relaxed md:text-lg md:leading-8 lg:mx-0">
+            <p className="text-on-navy-muted mx-auto mt-5 max-w-xl text-base leading-relaxed md:text-lg md:leading-8 lg:mx-0">
               {content.body}
             </p>
 
@@ -58,7 +58,7 @@ const AmazonSection = ({
               href={content.ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className={`bg-accent-amazon mt-8 inline-flex items-center gap-2 rounded-full px-7 py-3 text-base font-semibold text-black ${buttonMotion} ${focusRing.dark}`}
+              className={`bg-apricot mt-8 inline-flex items-center gap-2 rounded-full px-7 py-3 text-base font-semibold text-ink ${buttonMotion} ${focusRing.dark}`}
             >
               <BookIcon className="h-5 w-5" />
               {content.ctaLabel}

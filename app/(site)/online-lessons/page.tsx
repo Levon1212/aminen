@@ -32,10 +32,10 @@ const OnlineLessonsPage = async () => {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <p className="text-2xl font-semibold text-black dark:text-white">
+              <p className="text-2xl font-semibold text-ink">
                 No lessons available yet
               </p>
-              <p className="mt-3 text-body-color dark:text-body-color-dark">
+              <p className="mt-3">
                 Check back soon — new lessons are being prepared.
               </p>
             </div>

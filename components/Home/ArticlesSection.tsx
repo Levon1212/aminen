@@ -39,9 +39,9 @@ const ArticlesSection = ({
           >
             <Link
               href={`/articles/articles-details/${article.id}`}
-              className={`group border-navy-line bg-navy-700 hover:border-primary/40 hover:bg-navy-600 flex h-full flex-col overflow-hidden rounded-2xl border transition duration-200 ease-out hover:-translate-y-1 ${focusRing.dark}`}
+              className={`group border-on-navy/15 bg-navy-hover hover:border-primary-600/40 hover:bg-primary-700 flex h-full flex-col overflow-hidden rounded-2xl border transition duration-200 ease-out hover:-translate-y-1 ${focusRing.dark}`}
             >
-              <div className="bg-navy-600 relative aspect-16/10 w-full overflow-hidden">
+              <div className="bg-primary-700 relative aspect-16/10 w-full overflow-hidden">
                 {article.thumbnail ? (
                   <Image
                     src={getImagePath(article.thumbnail)}
@@ -54,10 +54,10 @@ const ArticlesSection = ({
               </div>
 
               <div className="flex flex-1 flex-col p-6">
-                <h3 className="text-onnavy-strong group-hover:text-primary-soft text-lg leading-snug font-semibold transition-colors duration-200">
+                <h3 className="text-on-navy group-hover:text-primary-200 text-lg leading-snug font-semibold transition-colors duration-200">
                   {article.title}
                 </h3>
-                <span className="text-onnavy-faint group-hover:text-primary-soft mt-4 text-base font-medium transition-colors duration-200">
+                <span className="text-on-navy-muted group-hover:text-primary-200 mt-4 text-base font-medium transition-colors duration-200">
                   Read article
                 </span>
               </div>
