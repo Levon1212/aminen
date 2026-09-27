@@ -43,11 +43,11 @@ export type SectionTone = "dark" | "light";
  * without any divider graphic.
  */
 export type SectionSurface =
-  | "dark" // navy-900
-  | "dark-alt" // navy-800
-  | "light" // ink-0
-  | "light-tint" // ink-100
-  | "light-warm"; // ink-0 under a soft warm wash
+  | "dark" // navy
+  | "dark-alt" // navy-hover
+  | "light" // surface
+  | "light-tint" // primary-50
+  | "light-warm"; // surface under an apricot-soft wash
 
 /** Which accent the eyebrow chip and CTA of a section are tinted with. */
 export type SectionAccent = "primary" | "kids";

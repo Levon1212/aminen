@@ -48,7 +48,7 @@ const VideoPlayer = ({ lessonId, videoIndex, video, isPurchased, onClose }: Vide
   }, [lessonId, videoIndex, video.is_preview, isPurchased]);
 
   return (
-    <div className="mt-3 overflow-hidden rounded-lg bg-black">
+    <div className="mt-3 overflow-hidden rounded-lg bg-ink">
       <div className="flex items-center justify-between px-3 py-1.5">
         <span className="text-xs text-white/60">Video {videoIndex + 1}</span>
         <button
@@ -59,7 +59,7 @@ const VideoPlayer = ({ lessonId, videoIndex, video, isPurchased, onClose }: Vide
         </button>
       </div>
       {error ? (
-        <p className="px-4 pb-4 text-sm text-red-400">Could not load video.</p>
+        <p className="px-4 pb-4 text-sm text-error-soft">Could not load video.</p>
       ) : !src ? (
         <p className="px-4 pb-4 text-sm text-white/40">Loading…</p>
       ) : (
@@ -122,7 +122,7 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
     return (
       <section className="pb-20 pt-35 lg:pb-25 lg:pt-45 xl:pb-30 xl:pt-50">
         <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
-          <p className="text-black dark:text-white">Loading…</p>
+          <p className="text-ink">Loading…</p>
         </div>
       </section>
     );
@@ -132,7 +132,7 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
     return (
       <section className="pb-20 pt-35 lg:pb-25 lg:pt-45 xl:pb-30 xl:pt-50">
         <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
-          <h2 className="text-3xl font-semibold text-black dark:text-white">Lesson not found</h2>
+          <h2 className="text-3xl font-semibold text-ink">Lesson not found</h2>
         </div>
       </section>
     );
@@ -145,7 +145,7 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
   return (
     <section className="pt-35 pb-20 lg:pt-45 lg:pb-25 xl:pt-50 xl:pb-30">
       <div className="max-w-c-1390 mx-auto px-4 md:px-8 2xl:px-0">
-        <div className="animate_top border-stroke shadow-solid-13 dark:border-strokedark dark:bg-blacksection rounded-md border bg-white p-7.5 md:p-10">
+        <div className="border-line shadow-solid-13 rounded-md border bg-surface p-7.5 md:p-10">
 
           {/* Header */}
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -157,22 +157,22 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
                   className="mb-6 w-full max-h-80 rounded-lg object-cover"
                 />
               )}
-              <h2 className="2xl:text-sectiontitle2 text-3xl font-semibold text-black dark:text-white">
+              <h2 className="2xl:text-sectiontitle2 text-3xl font-semibold text-ink">
                 {lesson.title}
               </h2>
               {lesson.description && (
-                <p className="mt-4 text-body-color dark:text-body-color-dark">
+                <p className="mt-4">
                   {lesson.description}
                 </p>
               )}
               {lesson.tags && (
-                <p className="mt-2 text-sm text-body-color dark:text-body-color-dark">
+                <p className="mt-2 text-sm">
                   <span className="font-medium">Tags:</span> {lesson.tags}
                 </p>
               )}
             </div>
             {lesson.price != null && (
-              <span className="shrink-0 self-start rounded-full bg-primary/10 px-4 py-1.5 text-lg font-bold text-primary">
+              <span className="shrink-0 self-start rounded-full bg-primary-600/10 px-4 py-1.5 text-lg font-bold text-primary-600">
                 ${Number(lesson.price).toFixed(2)}
               </span>
             )}
@@ -180,20 +180,20 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
 
           {/* Access status banner */}
           {isPurchased ? (
-            <div className="mb-6 flex items-center gap-2 rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700 dark:bg-green-900/30 dark:text-green-400 w-fit">
+            <div className="mb-6 flex items-center gap-2 rounded-full bg-success-soft px-4 py-2 text-sm font-semibold text-success-ink w-fit">
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
               30-day access active — all videos unlocked
             </div>
           ) : (
-            <div className="mb-6 rounded-xl border border-stroke bg-gray-50 px-6 py-5 dark:border-strokedark dark:bg-blacksection">
+            <div className="mb-6 rounded-xl border border-line bg-primary-50 px-6 py-5">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="font-semibold text-black dark:text-white">
+                  <p className="font-semibold text-ink">
                     Unlock all {videos.length} video{videos.length !== 1 ? "s" : ""} for 30 days
                   </p>
-                  <p className="mt-0.5 text-sm text-body-color dark:text-body-color-dark">
+                  <p className="mt-0.5 text-sm">
                     {previewCount > 0
                       ? `${previewCount} free preview${previewCount > 1 ? "s" : ""} available — purchase for full access.`
                       : "Purchase to access all videos."}
@@ -203,7 +203,7 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
                   ref={buyBtnRef}
                   onClick={handleBuy}
                   disabled={checkoutLoading}
-                  className="inline-flex shrink-0 items-center gap-2.5 rounded-full bg-primary px-7 py-3 font-semibold text-white duration-300 hover:bg-primaryho disabled:opacity-60"
+                  className="inline-flex shrink-0 items-center gap-2.5 rounded-full bg-primary-600 px-7 py-3 font-semibold text-white duration-300 hover:bg-primary-700 disabled:opacity-60"
                 >
                   {checkoutLoading ? "Redirecting…" : `Buy 30-Day Access — $${Number(lesson.price).toFixed(2)}`}
                   {!checkoutLoading && (
@@ -225,20 +225,20 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
               {videos.map((video, videoIdx) => {
                 const canPlay = video.is_preview || isPurchased;
                 return (
-                  <div key={videoIdx} className="border-t border-stroke pt-3 dark:border-strokedark">
+                  <div key={videoIdx} className="border-t border-line pt-3">
                     <button
                       onClick={() => handleVideoClick(videoIdx, canPlay)}
                       className={[
                         "flex w-full items-center gap-3 rounded-lg px-4 py-3 text-left text-sm font-medium transition-colors",
                         canPlay
-                          ? "bg-primary/5 text-primary hover:bg-primary/10"
-                          : "bg-black/5 text-body-color hover:bg-black/10 dark:bg-white/5 dark:text-body-color-dark dark:hover:bg-white/10",
+                          ? "bg-primary-600/5 text-primary-600 hover:bg-primary-600/10"
+                          : "bg-ink/5 hover:bg-ink/10",
                       ].join(" ")}
                     >
                       {canPlay ? <PlayIcon /> : <LockIcon />}
                       <span>Video {videoIdx + 1}</span>
                       {video.is_preview && (
-                        <span className="ml-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                        <span className="ml-1 rounded-full bg-primary-600/10 px-2 py-0.5 text-xs font-semibold text-primary-600">
                           Free Preview
                         </span>
                       )}
@@ -261,7 +261,7 @@ const OnlineLessonDetails = ({ id }: { id: string }) => {
               })}
             </div>
           ) : (
-            <p className="text-body-color dark:text-body-color-dark">
+            <p>
               No videos in this lesson yet.
             </p>
           )}

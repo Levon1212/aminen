@@ -29,7 +29,7 @@ const LiveLessonsSection = ({
   price: string;
   tone: SectionTone;
 }) => {
-  const ctaClassName = `group mt-10 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-base font-medium text-white hover:bg-primaryho ${buttonMotion} ${focusRing.light}`;
+  const ctaClassName = `group mt-10 inline-flex items-center gap-2 rounded-full bg-primary-600 px-8 py-3.5 text-base font-medium text-white hover:bg-primary-700 ${buttonMotion} ${focusRing.light}`;
 
   const ctaContent = (
     <>
@@ -51,14 +51,14 @@ const LiveLessonsSection = ({
       ctaHref={content.ctaHref}
     >
       <Reveal variant="scale">
-        <div className="max-w-c-1016 bg-ink-0 shadow-solid-7 mx-auto rounded-2xl p-8 text-center md:p-12">
-          <p className="text-waterloo text-sm font-semibold tracking-[0.2em] uppercase">
+        <div className="max-w-c-1016 bg-surface shadow-solid-7 mx-auto rounded-2xl p-8 text-center md:p-12">
+          <p className="text-muted text-sm font-semibold tracking-[0.2em] uppercase">
             From
           </p>
-          <p className="text-primary mt-2 text-[40px] leading-none font-bold md:text-[52px]">
+          <p className="text-primary-600 mt-2 text-[40px] leading-none font-bold md:text-[52px]">
             ${price}
           </p>
-          <p className="text-waterloo mt-2 text-base">per lesson</p>
+          <p className="text-muted mt-2 text-base">per lesson</p>
 
           <ul className="mx-auto mt-10 grid max-w-2xl gap-4 text-left sm:grid-cols-3 sm:gap-6 sm:text-center">
             {HIGHLIGHTS.map((highlight, index) => (
@@ -68,10 +68,10 @@ const LiveLessonsSection = ({
                 as="li"
                 variant="fade"
                 delay={index * 80}
-                className="bg-ink-100 flex items-start gap-3 rounded-xl px-4 py-4 sm:flex-col sm:items-center sm:gap-2"
+                className="bg-primary-50 flex items-start gap-3 rounded-xl px-4 py-4 sm:flex-col sm:items-center sm:gap-2"
               >
-                <CheckIcon className="text-primary mt-0.5 h-5 w-5 shrink-0 sm:mt-0" />
-                <span className="text-base font-medium text-black">
+                <CheckIcon className="text-primary-600 mt-0.5 h-5 w-5 shrink-0 sm:mt-0" />
+                <span className="text-base font-medium text-ink">
                   {highlight}
                 </span>
               </Reveal>

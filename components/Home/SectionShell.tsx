@@ -13,9 +13,9 @@ import Reveal from "./Reveal";
  * element on the homepage picks one of these so the ring stays visible.
  */
 export const focusRing = {
-  dark: "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-soft",
+  dark: "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400",
   light:
-    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-400",
 } as const;
 
 /**
@@ -34,12 +34,12 @@ export const arrowClass =
 
 /** Band backgrounds. The page alternates these to mark section boundaries. */
 export const surfaceClass: Record<SectionSurface, string> = {
-  dark: "bg-navy-900",
-  "dark-alt": "bg-navy-800",
-  light: "bg-ink-0",
-  "light-tint": "bg-ink-100",
+  dark: "bg-navy",
+  "dark-alt": "bg-navy-hover",
+  light: "bg-surface",
+  "light-tint": "bg-primary-50",
   "light-warm":
-    "bg-ink-0 bg-linear-to-b from-accent-kids/10 via-ink-0 to-ink-0",
+    "bg-surface bg-linear-to-b from-apricot-soft via-surface to-surface",
 };
 
 export const isExternal = (href: string) =>
@@ -65,13 +65,13 @@ export const SectionEyebrow = ({
 }) => {
   const chipClass =
     tone === "dark"
-      ? "border-navy-line bg-navy-700 text-primary-soft"
+      ? "border-on-navy/15 bg-navy-hover text-primary-200"
       : accent === "kids"
-      ? "border-accent-kids/40 bg-accent-kids/20 text-accent-kids"
-      : // A hairline, because this chip also sits on ink-100 bands.
-        "border-black/5 bg-ink-100 text-primary";
+      ? "border-apricot/40 bg-apricot-soft text-apricot-ink"
+      : // A hairline, because this chip also sits on primary-50 bands.
+        "border-line bg-primary-50 text-primary-600";
 
-  const labelClass = tone === "dark" ? "text-onnavy-faint" : "text-waterloo";
+  const labelClass = tone === "dark" ? "text-on-navy-muted" : "text-muted";
 
   return (
     <div className={`mb-5 flex items-center gap-3 ${className}`}>
@@ -126,15 +126,15 @@ const SectionShell = ({
   const resolvedSurface: SectionSurface =
     surface ?? (tone === "dark" ? "dark" : "light-tint");
 
-  const titleClass = tone === "dark" ? "text-onnavy-strong" : "text-black";
-  const bodyClass = tone === "dark" ? "text-onnavy-muted" : "text-waterloo";
+  const titleClass = tone === "dark" ? "text-on-navy" : "text-ink";
+  const bodyClass = tone === "dark" ? "text-on-navy-muted" : "text-body";
 
   const ctaClassName =
     accent === "kids"
-      ? `group mt-8 inline-flex items-center gap-2 rounded-full bg-accent-kids px-7 py-3 text-base font-semibold text-black hover:bg-accent-kids/85 ${buttonMotion} ${focusRing.light}`
+      ? `group mt-8 inline-flex items-center gap-2 rounded-full bg-apricot px-7 py-3 text-base font-semibold text-ink hover:bg-apricot/85 ${buttonMotion} ${focusRing.light}`
       : tone === "dark"
-      ? `group mt-8 inline-flex items-center gap-2 text-base font-semibold text-primary-soft hover:text-onnavy-strong ${buttonMotion} ${focusRing.dark}`
-      : `group mt-8 inline-flex items-center gap-2 text-base font-semibold text-primary hover:text-primaryho ${buttonMotion} ${focusRing.light}`;
+      ? `group mt-8 inline-flex items-center gap-2 text-base font-semibold text-primary-200 hover:text-on-navy ${buttonMotion} ${focusRing.dark}`
+      : `group mt-8 inline-flex items-center gap-2 text-base font-semibold text-primary-600 hover:text-primary-700 ${buttonMotion} ${focusRing.light}`;
 
   const ctaContent = (
     <>

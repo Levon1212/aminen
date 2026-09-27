@@ -19,7 +19,7 @@ const OnlineLessonItem = ({ lesson }: { lesson: OnlineLesson }) => {
       whileInView="visible"
       transition={{ duration: 1, delay: 0.5 }}
       viewport={{ once: true }}
-      className="animate_top shadow-solid-8 dark:bg-blacksection flex flex-col rounded-lg bg-white p-6 pb-8 backdrop-blur"
+      className="shadow-solid-8 flex flex-col rounded-lg bg-surface p-6 pb-8 backdrop-blur"
     >
       {lesson.thumbnail && (
         <Link href={detailsPath} className="relative mb-4 block aspect-368/239 overflow-hidden rounded-md">
@@ -32,39 +32,33 @@ const OnlineLessonItem = ({ lesson }: { lesson: OnlineLesson }) => {
       )}
 
       <div className="mb-4 flex items-start justify-between gap-2">
-        <h3 className="hover:text-primary dark:hover:text-primary xl:text-itemtitle2 text-lg font-medium text-black duration-300 dark:text-white">
+        <h3 className="hover:text-primary-600 xl:text-itemtitle2 text-lg font-medium text-ink duration-300">
           <Link href={detailsPath}>{lesson.title}</Link>
         </h3>
         {lesson.price != null && (
-          <span className="shrink-0 rounded-full bg-primary/10 px-3 py-0.5 text-sm font-semibold text-primary">
+          <span className="shrink-0 rounded-full bg-primary-600/10 px-3 py-0.5 text-sm font-semibold text-primary-600">
             ${Number(lesson.price).toFixed(2)}
           </span>
         )}
       </div>
 
       {lesson.description && (
-        <p className="mb-4 line-clamp-3 text-sm text-body-color dark:text-body-color-dark">
+        <p className="mb-4 line-clamp-3 text-sm">
           {lesson.description}
         </p>
       )}
 
-      <p className="mb-2 text-sm text-black/60 dark:text-white/60">
+      <p className="mb-4 text-sm text-muted">
         {videoCount} video{videoCount !== 1 ? "s" : ""}
         {previewCount > 0 && (
-          <span className="ml-2 text-primary">• {previewCount} free preview{previewCount !== 1 ? "s" : ""}</span>
+          <span className="ml-2 text-primary-600">• {previewCount} free preview{previewCount !== 1 ? "s" : ""}</span>
         )}
       </p>
-
-      {lesson.tags && (
-        <p className="mb-4 text-xs text-body-color dark:text-body-color-dark">
-          {lesson.tags}
-        </p>
-      )}
 
       <div className="mt-auto">
         <Link
           href={detailsPath}
-          className="inline-flex items-center gap-2 rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white duration-300 hover:bg-blackho dark:bg-btndark"
+          className="inline-flex items-center gap-2 rounded-full bg-primary-600 px-5 py-2.5 text-sm font-medium text-white duration-300 hover:bg-primary-700"
         >
           View Lesson
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

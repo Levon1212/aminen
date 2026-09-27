@@ -23,7 +23,7 @@ const YouTubeSection = ({
     <div className="max-w-c-1390 mx-auto px-4 md:px-8">
       <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal variant="scale" delay={120}>
-          <div className="border-navy-line bg-navy-800 shadow-navy-900/70 relative aspect-16/9 w-full overflow-hidden rounded-2xl border shadow-2xl">
+          <div className="border-on-navy/15 bg-navy-hover shadow-navy/70 relative aspect-16/9 w-full overflow-hidden rounded-2xl border shadow-2xl">
             <Image
               src={content.image}
               alt={content.title}
@@ -42,13 +42,13 @@ const YouTubeSection = ({
               label={content.eyebrow}
               className="justify-center lg:justify-start"
             />
-            <h2 className="text-onnavy-strong text-[28px] leading-tight font-bold sm:text-[34px] lg:text-[40px] lg:leading-[52px]">
+            <h2 className="text-on-navy text-[28px] leading-tight font-bold sm:text-[34px] lg:text-[40px] lg:leading-[52px]">
               {content.title}
             </h2>
-            <p className="text-onnavy-muted mx-auto mt-5 max-w-xl text-base leading-relaxed md:text-lg md:leading-8 lg:mx-0">
+            <p className="text-on-navy-muted mx-auto mt-5 max-w-xl text-base leading-relaxed md:text-lg md:leading-8 lg:mx-0">
               {content.body}
             </p>
-            <p className="text-onnavy-faint mt-4 text-base font-medium">
+            <p className="text-on-navy-muted mt-4 text-base font-medium">
               {handle}
             </p>
 
@@ -56,7 +56,7 @@ const YouTubeSection = ({
               href={content.ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className={`bg-accent-youtube mt-8 inline-flex items-center gap-2.5 rounded-full px-7 py-3 text-base font-semibold text-white ${buttonMotion} ${focusRing.dark}`}
+              className={`bg-error-strong mt-8 inline-flex items-center gap-2.5 rounded-full px-7 py-3 text-base font-semibold text-white ${buttonMotion} ${focusRing.dark}`}
             >
               <YouTubeIcon className="h-5 w-5" />
               {content.ctaLabel}

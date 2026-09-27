@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 const PaymentCancelPage = () => {
   return (
     <section className="overflow-hidden pb-25 pt-45 lg:pb-32.5 lg:pt-50 xl:pb-37.5 xl:pt-55">
-      <div className="animate_top mx-auto max-w-[518px] px-4 text-center">
-        <div className="mx-auto mb-7.5 flex h-24 w-24 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30">
+      <div className="mx-auto max-w-[518px] px-4 text-center">
+        <div className="mx-auto mb-7.5 flex h-24 w-24 items-center justify-center rounded-full bg-error-soft">
           <svg
-            className="h-12 w-12 text-red-500 dark:text-red-400"
+            className="h-12 w-12 text-error-strong"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -22,16 +22,16 @@ const PaymentCancelPage = () => {
           </svg>
         </div>
 
-        <h2 className="mb-5 text-2xl font-semibold text-black dark:text-white md:text-4xl">
+        <h2 className="mb-5 text-2xl font-semibold text-ink md:text-4xl">
           Payment Cancelled
         </h2>
-        <p className="mb-10 text-black/70 dark:text-white/70">
+        <p className="mb-10 text-body">
           Your booking was not completed. No charge was made.
         </p>
 
         <Link
           href="/live-lessons"
-          className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
+          className="inline-flex items-center gap-2.5 rounded-full bg-primary-600 px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-primary-700"
         >
           Try Again
           <svg

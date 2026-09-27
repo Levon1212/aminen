@@ -1,69 +1,93 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme {
   --font-*: initial;
   --font-inter: Inter, sans-serif;
 
-  --color-current: currentColor;
-  --color-transparent: transparent;
-  --color-stroke: #eeeeee;
-  --color-strokedark: #2d2f40;
-  --color-hoverdark: #252a42;
-  --color-titlebg: #adfff8;
-  --color-titlebg2: #ffeac2;
-  --color-titlebgdark: #46495a;
-  --color-btndark: #292e45;
-  --color-white: #ffffff;
-  --color-black: #181c31;
-  --color-blackho: #2c3149;
-  --color-blacksection: #1c2136;
-  --color-primary: #006bff;
-  --color-primaryho: #0063ec;
-  --color-meta: #20c5a8;
-  --color-waterloo: #757693;
-  --color-manatee: #999aa1;
-  --color-alabaster: #fbfbfb;
-  --color-zumthor: #edf5ff;
-  --color-socialicon: #d1d8e0;
+  /* ---- Palette ------------------------------------------------------------
+     One light theme, "dusty blue": muted steel blues, a soft blue-grey page,
+     off-white surfaces, deep indigo-blue contrast zones (header, footer, dark
+     homepage bands) and a muted apricot as the single warm accent. */
 
-  /* Navy surfaces — the page background and its dark bands. */
-  --color-navy-900: #0b1220;
-  --color-navy-800: #101b33;
-  --color-navy-700: #16223f;
-  --color-navy-600: #1e2d4f;
-  --color-navy-line: #26375c;
+  /* Primary scale. 600 carries white text (buttons, links); 700 is hover. */
+  --color-primary-50: #eef2f8;
+  --color-primary-100: #dce5f0;
+  --color-primary-200: #bfcde2;
+  --color-primary-300: #9db2d1;
+  --color-primary-400: #7a95be;
+  --color-primary-500: #5f7daa;
+  --color-primary-600: #4b6793;
+  --color-primary-700: #3c5479;
+  --color-primary-800: #2f4262;
+  --color-primary-900: #243350;
 
-  /* Light "island" card / band surfaces that sit on the navy. */
-  --color-ink-100: #f4f7ff;
-  --color-ink-0: #ffffff;
+  /* Navy contrast zones and the text that sits on them. on-navy-muted is only
+     AA at full opacity — never add an /alpha to it. */
+  --color-navy: #2f4262;
+  --color-navy-hover: #3c5479;
+  --color-on-navy: #eef2f8;
+  --color-on-navy-muted: #bfcde2;
 
-  /* Text on navy. Body copy never goes dimmer than onnavy-muted. */
-  --color-onnavy-strong: #eef3ff;
-  --color-onnavy-muted: #9db0d4;
-  --color-onnavy-faint: #6c82ac;
+  /* Surfaces. Page is blue-grey, cards are off-white; true white is reserved
+     for inputs and small elevated elements (dropdowns). */
+  --color-page: #e8eef6;
+  --color-surface: #f7fafd;
+  --color-surface-strong: #ffffff;
+  --color-line: #d3ddea;
 
-  /* Brand accents used by the YouTube, kids and Amazon bands. */
-  --color-accent-youtube: #ff3b30;
-  --color-accent-kids: #ffb020;
-  --color-accent-amazon: #ff9900;
+  /* Accents. Lavender pairs with blue in gradients; apricot marks kids/badges. */
+  --color-lavender: #a9b4de;
+  --color-apricot: #e6a87c;
+  /* #9a5b2e measured 4.41:1 on apricot-soft; nudged darker to clear AA. */
+  --color-apricot-ink: #925629;
+  --color-apricot-soft: #f6e6d8;
 
-  /* Brighter primary for links/icons that must read on navy. */
-  --color-primary-soft: #3d8bff;
+  /* Text on light surfaces. */
+  --color-ink: #1f2b3d;
+  --color-body: #3f4b5e;
+  /* #5e6a7d fell to 4.46:1 on the page gradient's lavender end; nudged darker. */
+  --color-muted: #5a6679;
 
-  --text-metatitle: 12px, 20px;
-  --text-sectiontitle: 14px, 22px;
-  --text-regular: 16px, 26px;
-  --text-metatitle3: 18px, 26px;
-  --text-metatitle2: 20px, 32px;
-  --text-para2: 22px, 35px;
-  --text-itemtitle: 26px, 32px;
-  --text-itemtitle2: 24px, 32px;
-  --text-hero: 44px, 58px;
-  --text-sectiontitle3: 44px, 55px;
-  --text-sectiontitle2: 40px, 52px;
-  --text-sectiontitle4: 34px, 48px;
+  /* Status. The base hue is for icons, bars and borders; *-ink is for text on
+     *-soft or on light surfaces; error-strong carries white text. */
+  --color-success: #3e8e6e;
+  --color-success-ink: #2f6e55;
+  --color-success-soft: #ddefe6;
+  --color-warning: #c98a2e;
+  --color-warning-ink: #8a5a12;
+  --color-warning-soft: #f6ead3;
+  --color-error: #c4574f;
+  --color-error-strong: #b84a45;
+  --color-error-ink: #a5423d;
+  --color-error-soft: #f6dfdc;
+
+  /* ---- Type scale ---------------------------------------------------------
+     Tailwind v4 wants the line height as a separate `--line-height` key; the
+     old `size, line-height` pairs compiled to invalid CSS and did nothing. */
+  --text-metatitle: 12px;
+  --text-metatitle--line-height: 20px;
+  --text-sectiontitle: 14px;
+  --text-sectiontitle--line-height: 22px;
+  --text-regular: 16px;
+  --text-regular--line-height: 26px;
+  --text-metatitle3: 18px;
+  --text-metatitle3--line-height: 26px;
+  --text-metatitle2: 20px;
+  --text-metatitle2--line-height: 32px;
+  --text-para2: 22px;
+  --text-para2--line-height: 35px;
+  --text-itemtitle: 26px;
+  --text-itemtitle--line-height: 32px;
+  --text-itemtitle2: 24px;
+  --text-itemtitle2--line-height: 32px;
+  --text-hero: 44px;
+  --text-hero--line-height: 58px;
+  --text-sectiontitle3: 44px;
+  --text-sectiontitle3--line-height: 55px;
+  --text-sectiontitle2: 40px;
+  --text-sectiontitle2--line-height: 52px;
+  --text-sectiontitle4: 34px;
+  --text-sectiontitle4--line-height: 48px;
 
   --container-c-1390: 86.875rem;
   --container-c-1315: 82.188rem;
@@ -78,19 +102,29 @@
 
   --transition-property-width: width;
 
-  --shadow-solid-l: 0px 10px 120px 0px rgba(45, 74, 170, 0.1);
-  --shadow-solid-2: 0px 2px 10px rgba(122, 135, 167, 0.05);
-  --shadow-solid-3: 0px 6px 90px rgba(8, 14, 40, 0.04);
-  --shadow-solid-4: 0px 6px 90px rgba(8, 14, 40, 0.1);
-  --shadow-solid-5: 0px 8px 24px rgba(45, 74, 170, 0.08);
-  --shadow-solid-6: 0px 8px 24px rgba(10, 16, 35, 0.08);
-  --shadow-solid-7: 0px 30px 50px rgba(45, 74, 170, 0.1);
-  --shadow-solid-8: 0px 12px 120px rgba(45, 74, 170, 0.06);
-  --shadow-solid-9: 0px 12px 30px rgba(45, 74, 170, 0.06);
-  --shadow-solid-10: 0px 8px 30px rgba(45, 74, 170, 0.06);
-  --shadow-solid-11: 0px 6px 20px rgba(45, 74, 170, 0.05);
-  --shadow-solid-12: 0px 2px 10px rgba(0, 0, 0, 0.05);
-  --shadow-solid-13: 0px 2px 19px rgba(0, 0, 0, 0.05);
+  /* Shadows are tinted with primary-900 (36, 51, 80) — never pure black. */
+  --shadow-soft: 0 1px 2px rgba(36, 51, 80, 0.06), 0 8px 24px rgba(36, 51, 80, 0.08);
+  --shadow-lift: 0 2px 4px rgba(36, 51, 80, 0.08), 0 16px 40px rgba(36, 51, 80, 0.14);
+
+  --shadow-solid-l: 0px 10px 120px 0px rgba(36, 51, 80, 0.1);
+  --shadow-solid-2: 0px 2px 10px rgba(36, 51, 80, 0.05);
+  --shadow-solid-3: 0px 6px 90px rgba(36, 51, 80, 0.04);
+  --shadow-solid-4: 0px 6px 90px rgba(36, 51, 80, 0.1);
+  --shadow-solid-5: 0px 8px 24px rgba(36, 51, 80, 0.08);
+  --shadow-solid-6: 0px 8px 24px rgba(36, 51, 80, 0.08);
+  --shadow-solid-7: 0px 30px 50px rgba(36, 51, 80, 0.1);
+  --shadow-solid-8: 0px 12px 120px rgba(36, 51, 80, 0.06);
+  --shadow-solid-9: 0px 12px 30px rgba(36, 51, 80, 0.06);
+  --shadow-solid-10: 0px 8px 30px rgba(36, 51, 80, 0.06);
+  --shadow-solid-11: 0px 6px 20px rgba(36, 51, 80, 0.05);
+  --shadow-solid-12: 0px 2px 10px rgba(36, 51, 80, 0.05);
+  --shadow-solid-13: 0px 2px 19px rgba(36, 51, 80, 0.05);
+
+  /* Tailwind's default shadow scale, same geometry, tinted instead of black. */
+  --shadow-sm: 0 1px 3px 0 rgb(36 51 80 / 0.1), 0 1px 2px -1px rgb(36 51 80 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(36 51 80 / 0.1), 0 2px 4px -2px rgb(36 51 80 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(36 51 80 / 0.1), 0 8px 10px -6px rgb(36 51 80 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(36 51 80 / 0.25);
 
   --animate-line1: line 3s linear infinite;
   --animate-line2: line 6s linear infinite;
@@ -121,12 +155,12 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+    border-color: var(--color-line, currentcolor);
   }
 }
 
 @utility dropdown {
-  @apply border-stroke shadow-solid-13 dark:border-strokedark xl:before:border-stroke xl:dark:before:border-strokedark -left-7.5 mt-2 hidden min-w-max flex-col gap-4 rounded-md border bg-white px-8 py-5 duration-300 ease-in xl:invisible xl:absolute xl:mt-0 xl:flex xl:w-[250px] xl:translate-y-10 xl:opacity-0 xl:group-hover:visible xl:group-hover:translate-y-6.5 xl:group-hover:opacity-100 xl:before:absolute xl:before:-top-1.5 xl:before:left-10 xl:before:h-3 xl:before:w-3 xl:before:rotate-45 xl:before:border-t xl:before:border-l xl:before:bg-white dark:bg-black xl:dark:before:bg-black;
+  @apply border-line shadow-solid-13 xl:before:border-line -left-7.5 mt-2 hidden min-w-max flex-col gap-4 rounded-md border bg-surface-strong px-8 py-5 duration-300 ease-in xl:invisible xl:absolute xl:mt-0 xl:flex xl:w-[250px] xl:translate-y-10 xl:opacity-0 xl:group-hover:visible xl:group-hover:translate-y-6.5 xl:group-hover:opacity-100 xl:before:absolute xl:before:-top-1.5 xl:before:left-10 xl:before:h-3 xl:before:w-3 xl:before:rotate-45 xl:before:border-t xl:before:border-l xl:before:bg-surface-strong;
 }
 
 @utility no-scrollbar {
@@ -147,10 +181,10 @@
   /* third-party libraries CSS */
 
   .testimonial-01 .swiper-pagination-bullet {
-    @apply bg-stroke h-2.5 w-2.5 opacity-100;
+    @apply bg-line h-2.5 w-2.5 opacity-100;
   }
   .testimonial-01 .swiper-pagination-bullet-active {
-    @apply bg-primary w-5 rounded-full;
+    @apply bg-primary-600 w-5 rounded-full;
   }
 
   .testimonial-01 .swiper-pagination {
@@ -163,9 +197,82 @@
 }
 
 @layer base {
-  body {
-    @apply font-inter text-regular text-waterloo dark:text-manatee relative z-1 font-normal;
+  /* The old theme provider pinned this inline on <html>; keep native controls light. */
+  html {
+    color-scheme: light;
   }
+
+  body {
+    @apply font-inter text-regular text-body bg-page relative z-1 font-normal;
+    /* The page gradient is fixed so it reads as one calm field, not a band per screen. */
+    background-image: var(--gradient-page);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-ink;
+  }
+
+  /* Form controls: hairline border, muted placeholder. Utilities override. */
+  input,
+  textarea,
+  select {
+    @apply border-line;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-muted;
+  }
+
+  /* One focus ring for anything that does not set its own. */
+  :focus-visible {
+    outline: 2px solid var(--color-primary-400);
+    outline-offset: 2px;
+  }
+}
+
+/* ---- Gradients -------------------------------------------------------------
+   Images rather than colors, so they live in :root, not @theme. Use them
+   through the bg-gradient-* utilities; add gradient-animated for a slow drift. */
+:root {
+  --gradient-page: linear-gradient(135deg, #e4ebf5 0%, #edf1f8 50%, #e6e7f4 100%);
+  --gradient-accent: linear-gradient(135deg, #7a95be 0%, #a9b4de 100%);
+  /* Navy zones: navy → navy-hover. */
+  --gradient-deep: linear-gradient(135deg, #2f4262 0%, #3c5479 100%);
+}
+
+@utility bg-gradient-page {
+  background-image: var(--gradient-page);
+}
+
+@utility bg-gradient-accent {
+  background-image: var(--gradient-accent);
+}
+
+@utility bg-gradient-deep {
+  background-image: var(--gradient-deep);
+}
+
+@keyframes gradient-drift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@utility gradient-animated {
+  background-size: 250% 250%;
+  animation: gradient-drift 18s ease infinite;
 }
 
 @layer utilities {
@@ -177,51 +284,51 @@
 }
 
 .blog-details-docs {
-  @apply shadow-solid-3 dark:border-strokedark dark:bg-blacksection rounded-lg border border-white p-7.5 transition-all xl:p-12.5;
+  @apply shadow-solid-3 rounded-lg border border-surface p-7.5 transition-all xl:p-12.5;
 }
 
 .blog-details p {
-  @apply text-titlebgdark dark:text-waterloo mb-8 text-base leading-relaxed;
+  @apply text-body mb-8 text-base leading-relaxed;
 }
 
 .blog-details p strong {
-  @apply text-primary dark:text-waterloo;
+  @apply text-primary-600;
 }
 .blog-details h3 strong,
 .blog-details h3 {
-  @apply mb-10 text-xl leading-tight font-semibold! text-black sm:text-2xl sm:leading-tight lg:text-xl lg:leading-tight xl:text-2xl xl:leading-tight dark:text-white;
+  @apply mb-10 text-xl leading-tight font-semibold! text-ink sm:text-2xl sm:leading-tight lg:text-xl lg:leading-tight xl:text-2xl xl:leading-tight;
 }
 
 .blog-details h4 strong,
 .blog-details h4 {
-  @apply text-xl leading-tight font-semibold! text-black sm:text-2xl sm:leading-tight lg:text-xl lg:leading-tight xl:text-2xl xl:leading-tight dark:text-white;
+  @apply text-xl leading-tight font-semibold! text-ink sm:text-2xl sm:leading-tight lg:text-xl lg:leading-tight xl:text-2xl xl:leading-tight;
 }
 
 .blog-details h5 strong,
 .blog-details h5 {
-  @apply mb-3 text-lg leading-tight font-semibold! text-black sm:text-xl dark:text-white;
+  @apply mb-3 text-lg leading-tight font-semibold! text-ink sm:text-xl;
 }
 
 .blog-details h1 {
-  @apply mb-4 text-3xl leading-tight! font-bold! text-black sm:text-4xl md:text-[45px] lg:text-4xl xl:text-[45px] dark:text-white;
+  @apply mb-4 text-3xl leading-tight! font-bold! text-ink sm:text-4xl md:text-[45px] lg:text-4xl xl:text-[45px];
 }
 .blog-details h2 strong,
 .blog-details h2 {
-  @apply mb-4 text-[26px] leading-tight! font-bold! text-black sm:text-3xl md:text-4xl dark:text-white;
+  @apply mb-4 text-[26px] leading-tight! font-bold! text-ink sm:text-3xl md:text-4xl;
 }
 
 .blog-details ul,
 .blog-details ol {
-  @apply text-titlebgdark mb-10 list-inside list-disc;
+  @apply text-body mb-10 list-inside list-disc;
 }
 
 .blog-details li,
 .blog-details li {
-  @apply text-titlebgdark dark:text-waterloo mb-2 text-base;
+  @apply text-body mb-2 text-base;
 }
 
 .blog-details blockquote {
-  @apply bg-manatee dark:bg-titlebgdark relative z-10 mb-10 overflow-hidden rounded-xs p-8 text-center text-base font-medium text-black italic md:py-9 lg:px-10;
+  @apply bg-primary-100 relative z-10 mb-10 overflow-hidden rounded-xs p-8 text-center text-base font-medium text-ink italic md:py-9 lg:px-10;
 }
 
 .blog-details blockquote::after {
@@ -231,26 +338,21 @@
 
 .blog-details blockquote::before {
   content: "";
-  @apply absolute top-0 left-0 h-[106px] w-[140px] bg-[url(/images/blog/quote-shape-1.svg)] bg-contain bg-left-top bg-no-repeat dark:bg-[url(/images/blog/quote-shape-1.svg)];
+  @apply absolute top-0 left-0 h-[106px] w-[140px] bg-[url(/images/blog/quote-shape-1.svg)] bg-contain bg-left-top bg-no-repeat;
 }
 .blog-details iframe {
   @apply mb-8 aspect-video w-full rounded-lg;
 }
 
 pre {
-  @apply bg-strokedark relative mb-2 rounded-lg px-4 py-2;
+  @apply bg-line text-ink relative mb-2 rounded-lg px-4 py-2;
 }
 .prism-copy-button {
-  @apply text-primary absolute top-2 right-2 h-[26px] rounded-sm bg-white px-4;
+  @apply text-primary-600 absolute top-2 right-2 h-[26px] rounded-sm bg-surface px-4;
 }
 
 .active-tab {
-  @apply bg-stroke dark:bg-blackho text-black dark:text-white;
-}
-
-.backdrop-blur {
-  background: #1f8a97 !important;
-  backdrop-filter: blur(20px);
+  @apply bg-line text-ink;
 }
 
 /* ==========================================================================
@@ -368,7 +470,8 @@ pre {
   }
 
   /* Drop the loop outright rather than freezing it mid-cycle. */
-  .hero-glow {
+  .hero-glow,
+  .gradient-animated {
     animation: none;
   }
 }

@@ -43,18 +43,11 @@ const Signin = () => {
       {/* <!-- ===== SignIn Form Start ===== --> */}
       <section className="pb-12.5 pt-32.5 lg:pb-25 lg:pt-45 xl:pb-30 xl:pt-50">
         <div className="relative z-1 mx-auto max-w-c-1016 px-7.5 pb-7.5 pt-10 lg:px-15 lg:pt-15 xl:px-20 xl:pt-20">
-          <div className="absolute left-0 top-0 -z-1 h-2/3 w-full rounded-lg bg-linear-to-t from-transparent to-[#dee7ff47] dark:bg-linear-to-t dark:to-[#252A42]"></div>
+          <div className="absolute left-0 top-0 -z-1 h-2/3 w-full rounded-lg bg-linear-to-t from-transparent to-primary-100/30"></div>
           <div className="absolute bottom-17.5 left-0 -z-1 h-1/3 w-full">
             <Image
               src="/images/shape/shape-dotted-light.svg"
               alt="Dotted"
-              className="dark:hidden"
-              fill
-            />
-            <Image
-              src="/images/shape/shape-dotted-dark.svg"
-              alt="Dotted"
-              className="hidden dark:block"
               fill
             />
           </div>
@@ -75,9 +68,9 @@ const Signin = () => {
             whileInView="visible"
             transition={{ duration: 1, delay: 0.1 }}
             viewport={{ once: true }}
-            className="animate_top rounded-lg bg-white px-7.5 pt-7.5 shadow-solid-8 dark:border dark:border-strokedark dark:bg-black xl:px-15 xl:pt-15"
+            className="rounded-lg bg-surface px-7.5 pt-7.5 shadow-solid-8 xl:px-15 xl:pt-15"
           >
-            <h2 className="mb-15 text-center text-3xl font-semibold text-black dark:text-white xl:text-sectiontitle2">
+            <h2 className="mb-15 text-center text-3xl font-semibold text-ink xl:text-sectiontitle2">
               Login to Your Account
             </h2>
             <div className="flex flex-col">
@@ -85,7 +78,7 @@ const Signin = () => {
                 <button
                   aria-label="sign with google"
                   onClick={handleGoogleLogin}
-                  className="text-body-color dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-xs border border-stroke bg-[#f8f8f8] px-6 py-3 text-base outline-hidden transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
+                  className="mb-6 flex w-full items-center justify-center rounded-xs border border-line bg-surface-strong px-6 py-3 text-base outline-hidden transition-all duration-300 hover:border-primary-600 hover:bg-primary-600/5 hover:text-primary-600"
                 >
                   <span className="mr-3">
                     <svg
@@ -125,7 +118,7 @@ const Signin = () => {
 
                 <button
                   aria-label="signup with github"
-                  className="text-body-color dark:text-body-color-dark dark:shadow-two mb-6 flex w-full items-center justify-center rounded-xs border border-stroke bg-[#f8f8f8] px-6 py-3 text-base outline-hidden transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-primary dark:border-transparent dark:bg-[#2C303B] dark:hover:border-primary dark:hover:bg-primary/5 dark:hover:text-primary dark:hover:shadow-none"
+                  className="mb-6 flex w-full items-center justify-center rounded-xs border border-line bg-surface-strong px-6 py-3 text-base outline-hidden transition-all duration-300 hover:border-primary-600 hover:bg-primary-600/5 hover:text-primary-600"
                 >
                   <span className="mr-3">
                     <svg
@@ -143,11 +136,11 @@ const Signin = () => {
               </div>
             </div>
             <div className="mb-10 flex items-center justify-center">
-              <span className="dark:bg-stroke-dark hidden h-[1px] w-full max-w-[200px] bg-stroke dark:bg-strokedark sm:block"></span>
-              <p className="text-body-color dark:text-body-color-dark w-full px-5 text-center text-base">
+              <span className="hidden h-[1px] w-full max-w-[200px] bg-line sm:block"></span>
+              <p className="w-full px-5 text-center text-base">
                 Or, login with your email
               </p>
-              <span className="dark:bg-stroke-dark hidden h-[1px] w-full max-w-[200px] bg-stroke dark:bg-strokedark sm:block"></span>
+              <span className="hidden h-[1px] w-full max-w-[200px] bg-line sm:block"></span>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -158,7 +151,7 @@ const Signin = () => {
                   name="email"
                   value={data.email}
                   onChange={(e) => setData({ ...data, email: e.target.value })}
-                  className="w-full border-b border-stroke bg-white! pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:bg-black! dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
+                  className="w-full border-b border-line bg-surface! pb-3.5 focus:border-primary-600 focus:placeholder:text-ink focus-visible:outline-hidden lg:w-1/2"
                 />
 
                 <input
@@ -169,7 +162,7 @@ const Signin = () => {
                   onChange={(e) =>
                     setData({ ...data, password: e.target.value })
                   }
-                  className="w-full border-b border-stroke bg-white! pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:bg-black! dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
+                  className="w-full border-b border-line bg-surface! pb-3.5 focus:border-primary-600 focus:placeholder:text-ink focus-visible:outline-hidden lg:w-1/2"
                 />
               </div>
 
@@ -181,7 +174,7 @@ const Signin = () => {
                       type="checkbox"
                       className="peer sr-only"
                     />
-                    <span className="border-gray-300 bg-gray-100 text-blue-600 dark:border-gray-600 dark:bg-gray-700 group mt-1 flex h-5 min-w-[20px] items-center justify-center rounded-sm peer-checked:bg-primary">
+                    <span className="border-line bg-primary-50 text-primary-600 group mt-1 flex h-5 min-w-[20px] items-center justify-center rounded-sm peer-checked:bg-primary-600">
                       <svg
                         className="opacity-0 in-[.group]:peer-checked:opacity-100"
                         width="10"
@@ -206,7 +199,7 @@ const Signin = () => {
                     </label>
                   </div>
 
-                  <a href="#" className="hover:text-primary">
+                  <a href="#" className="hover:text-primary-600">
                     Forgot Password?
                   </a>
                 </div>
@@ -215,7 +208,7 @@ const Signin = () => {
                   type="submit"
                   disabled={isLoading}
                   aria-label="login with email and password"
-                  className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho disabled:opacity-60"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-primary-600 px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-primary-700 disabled:opacity-60"
                 >
                   {isLoading ? "Logging in..." : "Log in"}
                   <svg
@@ -234,11 +227,11 @@ const Signin = () => {
                 </button>
               </div>
 
-              <div className="mt-12.5 border-t border-stroke py-5 text-center dark:border-strokedark">
+              <div className="mt-12.5 border-t border-line py-5 text-center">
                 <p>
                   Don't have an account?{" "}
                   <Link
-                    className="text-black hover:text-primary dark:text-white dark:hover:text-primary"
+                    className="text-ink hover:text-primary-600"
                     href="/auth/signup"
                   >
                     Sign Up

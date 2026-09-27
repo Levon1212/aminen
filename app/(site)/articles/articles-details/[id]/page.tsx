@@ -27,7 +27,7 @@ const SingleBlogPage = async ({ params }: { params: Promise<{ id: string }> }) =
     return (
       <section className="pb-20 pt-35 lg:pb-25 lg:pt-45 xl:pb-30 xl:pt-50">
         <div className="mx-auto max-w-c-1390 px-4 md:px-8 2xl:px-0">
-          <h2 className="text-3xl font-semibold text-black dark:text-white">
+          <h2 className="text-3xl font-semibold text-ink">
             Article not found
           </h2>
         </div>
@@ -45,7 +45,7 @@ const SingleBlogPage = async ({ params }: { params: Promise<{ id: string }> }) =
             </div>
 
             <div className="lg:w-2/3">
-              <div className="animate_top border-stroke shadow-solid-13 dark:border-strokedark dark:bg-blacksection rounded-md border bg-white p-7.5 md:p-10">
+              <div className="border-line shadow-solid-13 rounded-md border bg-surface p-7.5 md:p-10">
                 <div className="mb-10 w-full overflow-hidden">
                   <div className="relative aspect-97/60 w-full sm:aspect-97/44">
                     <img
@@ -56,20 +56,20 @@ const SingleBlogPage = async ({ params }: { params: Promise<{ id: string }> }) =
                   </div>
                 </div>
 
-                <h2 className="2xl:text-sectiontitle2 mt-11 mb-5 text-3xl font-semibold text-black dark:text-white">
+                <h2 className="2xl:text-sectiontitle2 mt-11 mb-5 text-3xl font-semibold text-ink">
                   {post.title}
                 </h2>
 
                 <ul className="mb-9 flex flex-wrap gap-5 2xl:gap-7.5">
                   <li>
-                    <span className="text-black dark:text-white">
+                    <span className="text-ink">
                       Published On:{" "}
                       {new Date(post.created_at).toLocaleDateString()}
                     </span>{" "}
                   </li>
                   {post.tags && (
                     <li>
-                      <span className="text-black dark:text-white">Tags:</span>
+                      <span className="text-ink">Tags:</span>
                       {post.tags}
                     </li>
                   )}

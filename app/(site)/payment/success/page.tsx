@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 const PaymentSuccessPage = () => {
   return (
     <section className="overflow-hidden pb-25 pt-45 lg:pb-32.5 lg:pt-50 xl:pb-37.5 xl:pt-55">
-      <div className="animate_top mx-auto max-w-[518px] px-4 text-center">
-        <div className="mx-auto mb-7.5 flex h-24 w-24 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+      <div className="mx-auto max-w-[518px] px-4 text-center">
+        <div className="mx-auto mb-7.5 flex h-24 w-24 items-center justify-center rounded-full bg-success-soft">
           <svg
-            className="h-12 w-12 text-green-600 dark:text-green-400"
+            className="h-12 w-12 text-success"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -22,19 +22,19 @@ const PaymentSuccessPage = () => {
           </svg>
         </div>
 
-        <h2 className="mb-5 text-2xl font-semibold text-black dark:text-white md:text-4xl">
+        <h2 className="mb-5 text-2xl font-semibold text-ink md:text-4xl">
           Payment Successful!
         </h2>
-        <p className="mb-2 text-black/70 dark:text-white/70">
+        <p className="mb-2 text-body">
           Your lesson has been confirmed.
         </p>
-        <p className="mb-10 text-black/70 dark:text-white/70">
+        <p className="mb-10 text-body">
           The teacher will contact you shortly with further details.
         </p>
 
         <Link
           href="/profile"
-          className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark dark:hover:bg-blackho"
+          className="inline-flex items-center gap-2.5 rounded-full bg-primary-600 px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-primary-700"
         >
           Go to Profile
           <svg

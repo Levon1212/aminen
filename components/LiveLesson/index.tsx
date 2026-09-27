@@ -38,18 +38,18 @@ interface UserLesson {
 const STATUS_CONFIG: Record<LessonStatus, { label: string; bg: string; text: string }> = {
   confirmed: {
     label: "Confirmed",
-    bg: "bg-emerald-100 dark:bg-emerald-900/30",
-    text: "text-emerald-700 dark:text-emerald-400",
+    bg: "bg-success-soft",
+    text: "text-success-ink",
   },
   pending: {
     label: "Pending",
-    bg: "bg-amber-100 dark:bg-amber-900/30",
-    text: "text-amber-700 dark:text-amber-400",
+    bg: "bg-warning-soft",
+    text: "text-warning-ink",
   },
   cancelled: {
     label: "Cancelled",
-    bg: "bg-red-100 dark:bg-red-900/30",
-    text: "text-red-600 dark:text-red-400",
+    bg: "bg-error-soft",
+    text: "text-error-ink",
   },
 };
 
@@ -72,14 +72,14 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
   if (loading) {
     return (
       <div className="mb-16">
-        <h2 className="mb-6 text-2xl font-semibold text-black dark:text-white xl:text-sectiontitle2">
+        <h2 className="mb-6 text-2xl font-semibold text-ink xl:text-sectiontitle2">
           My Upcoming Live Lessons
         </h2>
         <div className="flex gap-4">
           {[1, 2].map((i) => (
             <div
               key={i}
-              className="h-36 w-72 animate-pulse rounded-2xl bg-gray-200 dark:bg-gray-800"
+              className="h-36 w-72 animate-pulse rounded-2xl bg-primary-100"
             />
           ))}
         </div>
@@ -102,12 +102,12 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
       className="mb-16"
     >
       <div className="mb-8 flex items-center gap-3">
-        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary">
+        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary-600/10 text-primary-600">
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </span>
-        <h2 className="text-2xl font-bold tracking-tight text-black dark:text-white">
+        <h2 className="text-2xl font-bold tracking-tight text-ink">
           My Upcoming Live Lessons
         </h2>
       </div>
@@ -119,16 +119,16 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
           return (
             <div
               key={lesson.id}
-              className="group relative overflow-hidden rounded-2xl border border-stroke bg-white shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 dark:border-strokedark dark:bg-blacksection"
+              className="group relative overflow-hidden rounded-2xl border border-line bg-surface shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
             >
               {/* Decorative gradient strip */}
               <div
                 className={`h-1.5 w-full ${
                   status === "confirmed"
-                    ? "bg-gradient-to-r from-emerald-400 to-teal-500"
+                    ? "bg-gradient-to-r from-success to-success-ink"
                     : status === "cancelled"
-                    ? "bg-gradient-to-r from-red-400 to-rose-500"
-                    : "bg-gradient-to-r from-amber-400 to-orange-400"
+                    ? "bg-gradient-to-r from-error to-error-strong"
+                    : "bg-gradient-to-r from-warning to-apricot"
                 }`}
               />
 
@@ -141,12 +141,12 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
                 </span>
 
                 {/* Date / time */}
-                <p className="mb-1 text-sm font-semibold text-black dark:text-white leading-snug">
+                <p className="mb-1 text-sm font-semibold text-ink leading-snug">
                   {formatLessonDate(lesson.date, lesson.time)}
                 </p>
 
                 {/* Duration */}
-                <p className="mb-4 text-xs text-body-color dark:text-body-color-dark">
+                <p className="mb-4 text-xs">
                   {lesson.duration ? `${lesson.duration} min` : "Duration TBD"}
                 </p>
 
@@ -156,7 +156,7 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
                     href={lesson.meeting_link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-success-ink px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-success-ink/90"
                   >
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.277A1 1 0 0121 8.677v6.646a1 1 0 01-1.447.894L15 14M4 8h11a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1V9a1 1 0 011-1z" />
@@ -164,7 +164,7 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
                     Join Meeting
                   </a>
                 ) : (
-                  <span className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-xs font-medium text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                  <span className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary-100 px-4 py-2 text-xs font-medium text-muted">
                     <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -311,10 +311,9 @@ const LiveLessonForm = () => {
     <>
       <section id="live-lesson" className="px-4 md:px-8 2xl:px-0">
         <div className="relative mx-auto max-w-c-1390 px-7.5 pt-10 lg:px-15 lg:pt-15 xl:px-20 xl:pt-20">
-          <div className="absolute left-0 top-0 -z-1 h-2/3 w-full rounded-lg bg-linear-to-t from-transparent to-[#dee7ff47] dark:bg-linear-to-t dark:to-[#252A42]" />
+          <div className="absolute left-0 top-0 -z-1 h-2/3 w-full rounded-lg bg-linear-to-t from-transparent to-primary-100/30" />
           <div className="absolute bottom-[-255px] left-0 -z-1 h-full w-full">
-            <Image src="/images/shape/shape-dotted-light.svg" alt="Dotted" className="dark:hidden" fill />
-            <Image src="/images/shape/shape-dotted-dark.svg" alt="Dotted" className="hidden dark:block" fill />
+            <Image src="/images/shape/shape-dotted-light.svg" alt="Dotted" fill />
           </div>
 
           {/* My upcoming lessons — only shown when logged in */}
@@ -329,9 +328,9 @@ const LiveLessonForm = () => {
               whileInView="visible"
               transition={{ duration: 1, delay: 0.1 }}
               viewport={{ once: true }}
-              className="animate_top w-full rounded-lg bg-white p-7.5 shadow-solid-8 dark:border dark:border-strokedark dark:bg-black md:w-3/5 lg:w-3/4 xl:p-15"
+              className="w-full rounded-lg bg-surface p-7.5 shadow-solid-8 md:w-3/5 lg:w-3/4 xl:p-15"
             >
-              <h2 className="mb-15 text-3xl font-semibold text-black dark:text-white xl:text-sectiontitle2">
+              <h2 className="mb-15 text-3xl font-semibold text-ink xl:text-sectiontitle2">
                 Schedule a Live Lesson
               </h2>
 
@@ -345,7 +344,7 @@ const LiveLessonForm = () => {
                     onChange={handleChange}
                     placeholder="Full name"
                     required
-                    className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
+                    className="w-full border-b border-line bg-transparent pb-3.5 focus:border-primary-600 focus:placeholder:text-ink focus-visible:outline-hidden lg:w-1/2"
                   />
                   <input
                     type="email"
@@ -354,7 +353,7 @@ const LiveLessonForm = () => {
                     onChange={handleChange}
                     placeholder="Email address"
                     required
-                    className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
+                    className="w-full border-b border-line bg-transparent pb-3.5 focus:border-primary-600 focus:placeholder:text-ink focus-visible:outline-hidden lg:w-1/2"
                   />
                 </div>
 
@@ -367,7 +366,7 @@ const LiveLessonForm = () => {
                     onChange={handleChange}
                     placeholder="Phone number"
                     required
-                    className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
+                    className="w-full border-b border-line bg-transparent pb-3.5 focus:border-primary-600 focus:placeholder:text-ink focus-visible:outline-hidden lg:w-1/2"
                   />
                   <input
                     type="text"
@@ -376,7 +375,7 @@ const LiveLessonForm = () => {
                     onChange={handleChange}
                     placeholder="Country"
                     required
-                    className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
+                    className="w-full border-b border-line bg-transparent pb-3.5 focus:border-primary-600 focus:placeholder:text-ink focus-visible:outline-hidden lg:w-1/2"
                   />
                 </div>
 
@@ -390,10 +389,10 @@ const LiveLessonForm = () => {
                       onChange={handleDateChange}
                       min={today}
                       required
-                      className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee"
+                      className="w-full border-b border-line bg-transparent pb-3.5 focus:border-primary-600 focus-visible:outline-hidden"
                     />
                     {dateError && (
-                      <p className="mt-1 text-xs text-red-500">{dateError}</p>
+                      <p className="mt-1 text-xs text-error-ink">{dateError}</p>
                     )}
                   </div>
                   <div className="hidden w-full lg:block lg:w-1/2" />
@@ -401,13 +400,13 @@ const LiveLessonForm = () => {
 
                 {/* Row 4 — Time slots */}
                 {slotsLoading && (
-                  <p className="mb-7.5 text-sm text-black/60 dark:text-white/60">
+                  <p className="mb-7.5 text-sm text-muted">
                     Loading available slots…
                   </p>
                 )}
                 {!slotsLoading && availableSlots.length > 0 && (
                   <div className="mb-7.5">
-                    <p className="mb-3 text-sm font-medium text-black dark:text-white">
+                    <p className="mb-3 text-sm font-medium text-ink">
                       Select a time ({timezone}):
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -418,8 +417,8 @@ const LiveLessonForm = () => {
                           onClick={() => setSelectedTime(slot)}
                           className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                             selectedTime === slot
-                              ? "border-black bg-black text-white dark:border-white dark:bg-white dark:text-black"
-                              : "border-stroke bg-transparent text-black hover:border-black hover:bg-black hover:text-white dark:border-strokedark dark:text-white dark:hover:border-white dark:hover:bg-white dark:hover:text-black"
+                              ? "border-primary-600 bg-primary-600 text-white"
+                              : "border-line bg-transparent text-ink hover:border-primary-600 hover:bg-primary-600 hover:text-white"
                           }`}
                         >
                           {slot}
@@ -438,7 +437,7 @@ const LiveLessonForm = () => {
                     placeholder="Message"
                     rows={4}
                     required
-                    className="w-full border-b border-stroke bg-transparent focus:border-waterloo focus:placeholder:text-black focus-visible:outline-hidden dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white"
+                    className="w-full border-b border-line bg-transparent focus:border-primary-600 focus:placeholder:text-ink focus-visible:outline-hidden"
                   />
                 </div>
 
@@ -446,7 +445,7 @@ const LiveLessonForm = () => {
                   <button
                     disabled={loading}
                     aria-label="schedule lesson"
-                    className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark disabled:opacity-50"
+                    className="inline-flex items-center gap-2.5 rounded-full bg-primary-600 px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-primary-700 disabled:opacity-50"
                   >
                     {loading ? "Processing Payment…" : `Schedule & Pay — $${lessonPrice}/hr`}
                     <svg className="fill-white" width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -463,33 +462,33 @@ const LiveLessonForm = () => {
               whileInView="visible"
               transition={{ duration: 2, delay: 0.1 }}
               viewport={{ once: true }}
-              className="animate_top w-full md:w-2/5 md:p-7.5 lg:w-[26%] xl:pt-15"
+              className="w-full md:w-2/5 md:p-7.5 lg:w-[26%] xl:pt-15"
             >
-              <h2 className="mb-12.5 text-3xl font-semibold text-black dark:text-white xl:text-sectiontitle2">
+              <h2 className="mb-12.5 text-3xl font-semibold text-ink xl:text-sectiontitle2">
                 Live Lessons
               </h2>
 
               <div className="mb-7">
-                <h3 className="mb-4 text-metatitle3 font-medium text-black dark:text-white">
+                <h3 className="mb-4 text-metatitle3 font-medium text-ink">
                   Personalized Learning
                 </h3>
                 <p>Book a one-on-one live lesson with our experienced Armenian language tutors.</p>
               </div>
               <div className="mb-7">
-                <h3 className="mb-4 text-metatitle3 font-medium text-black dark:text-white">
+                <h3 className="mb-4 text-metatitle3 font-medium text-ink">
                   Flexible Scheduling
                 </h3>
                 <p>Choose a time that works best for you and start your journey to mastering Armenian.</p>
               </div>
 
               {/* Price display */}
-              <div className="mt-8 rounded-xl border border-stroke bg-white/60 p-5 text-center shadow-sm dark:border-strokedark dark:bg-black/30 backdrop-blur-sm">
-                <p className="text-xs font-semibold uppercase tracking-widest text-body-color dark:text-body-color-dark">
+              <div className="mt-8 rounded-xl border border-line bg-surface/60 p-5 text-center shadow-sm backdrop-blur-sm">
+                <p className="text-xs font-semibold uppercase tracking-widest">
                   Price per session
                 </p>
-                <p className="mt-1 text-4xl font-extrabold tracking-tight text-black dark:text-white">
+                <p className="mt-1 text-4xl font-extrabold tracking-tight text-ink">
                   ${lessonPrice}
-                  <span className="ml-1 text-lg font-normal text-body-color dark:text-body-color-dark">/ hr</span>
+                  <span className="ml-1 text-lg font-normal">/ hr</span>
                 </p>
               </div>
             </motion.div>

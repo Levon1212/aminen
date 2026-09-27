@@ -22,11 +22,11 @@ const Hero = ({ content }: { content: HeroContent }) => {
     secondaryHref,
   } = content;
 
-  const primaryClass = `group inline-flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-center text-base font-medium text-white hover:bg-primaryho ${buttonMotion} ${focusRing.dark}`;
-  const secondaryClass = `inline-flex items-center justify-center rounded-full border border-navy-line bg-transparent px-8 py-3.5 text-center text-base font-medium text-onnavy-strong hover:border-primary-soft hover:text-primary-soft ${buttonMotion} ${focusRing.dark}`;
+  const primaryClass = `group inline-flex items-center justify-center gap-2 rounded-full bg-primary-600 px-8 py-3.5 text-center text-base font-medium text-white hover:bg-primary-700 ${buttonMotion} ${focusRing.dark}`;
+  const secondaryClass = `inline-flex items-center justify-center rounded-full border border-on-navy/40 bg-transparent px-8 py-3.5 text-center text-base font-medium text-on-navy hover:border-primary-300 hover:text-primary-200 ${buttonMotion} ${focusRing.dark}`;
 
   return (
-    <section className="bg-navy-900 relative overflow-hidden">
+    <section className="bg-navy bg-gradient-deep relative overflow-hidden">
       {/*
         Glow behind the image column — decoration only. It breathes very slowly
         between 0.85 and 1.0 opacity; nothing else about it moves, and the
@@ -34,7 +34,7 @@ const Hero = ({ content }: { content: HeroContent }) => {
       */}
       <div
         aria-hidden="true"
-        className="hero-glow bg-primary/20 pointer-events-none absolute top-0 -right-40 h-[36rem] w-[36rem] rounded-full blur-3xl"
+        className="hero-glow bg-primary-600/20 pointer-events-none absolute top-0 -right-40 h-[36rem] w-[36rem] rounded-full blur-3xl"
       />
 
       <div className="max-w-c-1390 relative mx-auto flex min-h-[70vh] flex-col justify-center px-4 py-12 md:px-8 md:py-16">
@@ -44,19 +44,19 @@ const Hero = ({ content }: { content: HeroContent }) => {
             from CSS rather than on intersection — it needs no JavaScript.
           */}
           <div className="text-center lg:text-left">
-            <span className="hero-enter border-navy-line bg-navy-700 text-primary-soft inline-block rounded-full border px-4 py-1.5 text-sm font-semibold">
+            <span className="hero-enter border-on-navy/15 bg-navy-hover text-primary-200 inline-block rounded-full border px-4 py-1.5 text-sm font-semibold">
               {badge}
             </span>
 
-            <h1 className="hero-enter hero-delay-80 text-onnavy-strong mt-6 text-[32px] leading-tight font-bold sm:text-[40px] lg:text-[48px] lg:leading-[60px]">
+            <h1 className="hero-enter hero-delay-80 text-on-navy mt-6 text-[32px] leading-tight font-bold sm:text-[40px] lg:text-[48px] lg:leading-[60px]">
               {title}
             </h1>
 
-            <p className="hero-enter hero-delay-160 text-onnavy-muted mx-auto mt-6 max-w-xl text-base leading-relaxed md:text-lg md:leading-8 lg:mx-0">
+            <p className="hero-enter hero-delay-160 text-on-navy-muted mx-auto mt-6 max-w-xl text-base leading-relaxed md:text-lg md:leading-8 lg:mx-0">
               {subtitle}
             </p>
 
-            <p className="hero-enter hero-delay-240 text-primary-soft mt-4 text-base font-medium">
+            <p className="hero-enter hero-delay-240 text-primary-200 mt-4 text-base font-medium">
               {tagline}
             </p>
 
@@ -97,7 +97,7 @@ const Hero = ({ content }: { content: HeroContent }) => {
 
           {/* Image — a lit panel sitting on the navy. */}
           <div className="order-first lg:order-last">
-            <div className="hero-enter hero-delay-200 border-navy-line bg-navy-800 shadow-navy-900/70 relative mx-auto aspect-4/5 w-full max-w-xs overflow-hidden rounded-2xl border shadow-2xl sm:max-w-sm">
+            <div className="hero-enter hero-delay-200 border-on-navy/15 bg-navy-hover shadow-navy/70 relative mx-auto aspect-4/5 w-full max-w-xs overflow-hidden rounded-2xl border shadow-2xl sm:max-w-sm">
               <Image
                 src={image}
                 alt={title}

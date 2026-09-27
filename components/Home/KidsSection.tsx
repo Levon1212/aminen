@@ -44,10 +44,10 @@ const KidsSection = ({
           >
             <Link
               href={`/kids-articles/articles-details/${article.id}`}
-              className={`group bg-ink-100 shadow-solid-9 hover:shadow-solid-7 flex h-full flex-col overflow-hidden rounded-3xl transition duration-200 ease-out hover:-translate-y-1 ${focusRing.light}`}
+              className={`group bg-primary-50 shadow-solid-9 hover:shadow-solid-7 flex h-full flex-col overflow-hidden rounded-3xl transition duration-200 ease-out hover:-translate-y-1 ${focusRing.light}`}
             >
               {/* The warm accent frame is this card's kids chip — it brightens on hover. */}
-              <div className="bg-accent-kids/15 group-hover:bg-accent-kids/30 relative aspect-16/10 w-full overflow-hidden transition-colors duration-200 ease-out">
+              <div className="bg-apricot/15 group-hover:bg-apricot/30 relative aspect-16/10 w-full overflow-hidden transition-colors duration-200 ease-out">
                 {article.thumbnail ? (
                   <Image
                     src={getImagePath(article.thumbnail)}
@@ -60,10 +60,10 @@ const KidsSection = ({
               </div>
 
               <div className="flex flex-1 flex-col p-6">
-                <h3 className="group-hover:text-primary text-lg leading-snug font-semibold text-black transition-colors duration-200">
+                <h3 className="group-hover:text-primary-600 text-lg leading-snug font-semibold text-ink transition-colors duration-200">
                   {article.title}
                 </h3>
-                <span className="text-primary mt-4 text-base font-medium">
+                <span className="text-primary-600 mt-4 text-base font-medium">
                   Read article
                 </span>
               </div>
