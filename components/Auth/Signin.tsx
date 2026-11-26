@@ -25,7 +25,9 @@ const Signin = () => {
       const response = await axiosInstance.post("/login", data);
       toast.success("Logged in successfully!");
       login(response.data.access_token, response.data.user);
-      router.push("/");
+      // Only follow same-site relative paths (e.g. ?redirect=/live-lessons)
+      const redirect = new URLSearchParams(window.location.search).get("redirect");
+      router.push(redirect && redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : "/");
     } catch (error: any) {
       const message = error.response?.data?.message || "Something went wrong";
       toast.error(message);

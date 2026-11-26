@@ -10,6 +10,8 @@ export interface PrivateLessonSchedule {
   country: string;
   status?: 'pending' | 'confirmed' | 'cancelled';
   duration?: number;
+  user_id?: number | null;
+  user_package_id?: number | null;
   created_at?: string;
   updated_at?: string;
 }
