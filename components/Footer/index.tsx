@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { resolveSettingImage } from "@/libs/imageHelper";
 
 interface FooterSettings {
   logoSrc?: string;
@@ -18,7 +19,9 @@ const LINK =
   `mb-3 inline-block text-on-navy-muted transition-colors duration-200 hover:text-on-navy ${FOCUS}`;
 
 const Footer = ({ settings = {} }: { settings?: FooterSettings }) => {
-  const logoSrc = settings.logoSrc || "/images/logo/logo.jpg";
+  // Admin uploads are stored as storage-relative paths ("settings/<uuid>.jpg"); next/image throws on
+  // a src without a leading slash or scheme, so resolve it to a full URL first
+  const logoSrc = resolveSettingImage(settings.logoSrc, "/images/logo/logo.jpg");
   const tagline = settings.tagline || "ARMENIANINENGLISH — Learn Armenian in English with Margarita. Short lessons, videos, and a friendly beginner book to help you speak with confidence.";
   const email = settings.email || "hello@armenianinenglish.com";
 
@@ -57,7 +60,7 @@ const Footer = ({ settings = {} }: { settings?: FooterSettings }) => {
           <div className="flex flex-wrap gap-8 lg:justify-between lg:gap-0">
             <div className="w-1/2 lg:w-1/4">
               <a href="/" className={`relative inline-block rounded-lg ${FOCUS}`}>
-                <Image width={110} height={80} src={logoSrc} alt="Logo" />
+                <Image width={110} height={80} src={logoSrc} alt="Logo" unoptimized={!logoSrc.startsWith("/")} />
               </a>
 
               <p className="mb-10 mt-5 text-on-navy-muted">{tagline}</p>

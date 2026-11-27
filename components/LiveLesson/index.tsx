@@ -1,10 +1,23 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { DateTime } from "luxon";
+import { useRouter } from "next/navigation";
 import axiosInstance from "@/libs/axios";
 import toast from "react-hot-toast";
 import { useAuth } from "@/app/context/AuthContext";
+import { ActivePackage, LessonPackage } from "@/types/lesson-package";
+import {
+  detectTimezone,
+  formatInstantInZone,
+  formatInZone,
+  getTimezoneList,
+  isValidTimezone,
+  timezoneLabel,
+  todayInZone,
+  utcToZone,
+} from "@/libs/timezone";
 
 interface FormFields {
   full_name: string;
@@ -33,6 +46,7 @@ interface UserLesson {
   duration: number | null;
   status: LessonStatus | null;
   meeting_link: string | null;
+  timezone: string | null;
 }
 
 const STATUS_CONFIG: Record<LessonStatus, { label: string; bg: string; text: string }> = {
@@ -53,18 +67,89 @@ const STATUS_CONFIG: Record<LessonStatus, { label: string; bg: string; text: str
   },
 };
 
-function formatLessonDate(date: string | null, time: string | null): string {
-  if (!date) return "—";
-  const timeStr = time ? (time.length === 5 ? `${time}:00` : time) : "00:00:00";
-  return new Date(`${date}T${timeStr}Z`).toLocaleString(undefined, {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+// Lessons are shown in the timezone the student booked in (stored on the booking)
+function lessonTimezone(lesson: UserLesson): string {
+  return isValidTimezone(lesson.timezone) ? (lesson.timezone as string) : detectTimezone();
 }
+
+// A lesson's start as an instant (ms). Comparisons with "now" are zone-free.
+function lessonStartMs(lesson: UserLesson): number {
+  return lesson.date ? utcToZone(lesson.date, lesson.time, "utc").toMillis() : Number.POSITIVE_INFINITY;
+}
+
+// Package expiry is an instant; show its date in the zone the student is working in
+function formatExpiry(iso: string, tz: string): string {
+  return `${formatInstantInZone(iso, tz, "d LLL yyyy")} (${tz})`;
+}
+
+function formatMoney(value: number): string {
+  return Number.isInteger(value) ? `$${value}` : `$${value.toFixed(2)}`;
+}
+
+// ─── Packages Storefront ─────────────────────────────────────────────────────
+
+const PackagesStorefront = ({
+  packages,
+  singlePrice,
+  buyingId,
+  onBuy,
+}: {
+  packages: LessonPackage[];
+  singlePrice: number;
+  buyingId: number | null;
+  onBuy: (id: number) => void;
+}) => {
+  if (packages.length === 0) return null;
+
+  return (
+    <div className="mb-16">
+      <h2 className="mb-2 text-2xl font-bold tracking-tight text-ink">Lesson Packages</h2>
+      <p className="mb-8 text-sm">
+        Buy several lessons at once, then book them one at a time — no payment at each booking.
+      </p>
+
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {packages.map((pkg) => {
+          const fullPrice = singlePrice * pkg.lessons_count;
+          const savings = fullPrice - pkg.price;
+          const savingsPct = fullPrice > 0 ? Math.round((savings / fullPrice) * 100) : 0;
+          return (
+            <div
+              key={pkg.id}
+              className="flex flex-col rounded-2xl border border-line bg-surface p-6 shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+            >
+              <h3 className="text-lg font-semibold text-ink">{pkg.name}</h3>
+              <p className="mt-1 text-sm">
+                {pkg.lessons_count} live lessons · {pkg.lessons_count * 60} min total
+              </p>
+              {pkg.description && <p className="mt-3 text-sm">{pkg.description}</p>}
+
+              <p className="mt-5 text-3xl font-extrabold tracking-tight text-ink">
+                {formatMoney(pkg.price)}
+              </p>
+              <p className="text-sm">{formatMoney(pkg.price_per_lesson)} per lesson</p>
+              {savings > 0 && (
+                <span className="mt-2 inline-block w-fit rounded-full bg-success-soft px-3 py-0.5 text-xs font-semibold text-success-ink">
+                  Save {formatMoney(Math.round(savings * 100) / 100)} ({savingsPct}%)
+                </span>
+              )}
+              <p className="mt-3 text-xs">Valid for {pkg.validity_days} days after purchase</p>
+
+              <button
+                type="button"
+                onClick={() => onBuy(pkg.id)}
+                disabled={buyingId !== null}
+                className="mt-6 inline-flex items-center justify-center rounded-full bg-primary-600 px-6 py-2.5 text-sm font-medium text-white duration-300 ease-in-out hover:bg-primary-700 disabled:opacity-50"
+              >
+                {buyingId === pkg.id ? "Redirecting…" : "Buy package"}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 // ─── My Upcoming Lessons Section ────────────────────────────────────────────
 
@@ -89,7 +174,11 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
 
   if (lessons.length === 0) return null;
 
-  const upcoming = lessons.filter((l) => l.status !== "cancelled");
+  // Still upcoming until the lesson has ended (so "Join Meeting" stays available during it); soonest first
+  const nowMs = DateTime.utc().toMillis();
+  const upcoming = lessons
+    .filter((l) => l.status !== "cancelled" && lessonStartMs(l) + (l.duration ?? 60) * 60_000 > nowMs)
+    .sort((a, b) => lessonStartMs(a) - lessonStartMs(b));
 
   if (upcoming.length === 0) return null;
 
@@ -142,8 +231,9 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
 
                 {/* Date / time */}
                 <p className="mb-1 text-sm font-semibold text-ink leading-snug">
-                  {formatLessonDate(lesson.date, lesson.time)}
+                  {formatInZone(lesson.date, lesson.time, lessonTimezone(lesson))}
                 </p>
+                <p className="mb-1 text-xs">{lessonTimezone(lesson)}</p>
 
                 {/* Duration */}
                 <p className="mb-4 text-xs">
@@ -182,22 +272,95 @@ const MyUpcomingLessons = ({ lessons, loading }: { lessons: UserLesson[]; loadin
 
 // ─── Main Form Component ─────────────────────────────────────────────────────
 
+const PACKAGE_POLL_INTERVAL_MS = 3000;
+const PACKAGE_POLL_ATTEMPTS = 10;
+
 const LiveLessonForm = () => {
   const { user } = useAuth();
+  const router = useRouter();
   const [hasMounted, setHasMounted] = useState(false);
   const [formData, setFormData] = useState<FormFields>(EMPTY_FORM);
   const [selectedTime, setSelectedTime] = useState("");
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
-  const [dateError, setDateError] = useState("");
+  const [timezone, setTimezone] = useState<string>(() => detectTimezone());
   const [loading, setLoading] = useState(false);
   const [lessonPrice, setLessonPrice] = useState<string>("30");
   const [lessons, setLessons] = useState<UserLesson[]>([]);
   const [lessonsLoading, setLessonsLoading] = useState(false);
+  const [packages, setPackages] = useState<LessonPackage[]>([]);
+  const [activePackage, setActivePackage] = useState<ActivePackage | null>(null);
+  const [buyingId, setBuyingId] = useState<number | null>(null);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
+  // Id of the latest slots request; older responses (e.g. for the previous timezone) are dropped
+  const slotsRequest = useRef(0);
+
+  // Browser-detected zone goes first; it is the default until the student changes it
+  const timezoneOptions = useMemo(() => getTimezoneList(detectTimezone()), []);
 
   useEffect(() => {
     setHasMounted(true);
   }, []);
+
+  // Fetch packages for sale
+  useEffect(() => {
+    axiosInstance
+      .get<{ data: LessonPackage[] }>("/lesson-packages")
+      .then((res) => setPackages(res.data.data ?? []))
+      .catch(() => {});
+  }, []);
+
+  const loadLessons = useCallback(() => {
+    setLessonsLoading(true);
+    axiosInstance
+      .get<{ data: UserLesson[] }>("/profile/lessons")
+      .then((res) => setLessons(res.data.data))
+      .catch(() => {})
+      .finally(() => setLessonsLoading(false));
+  }, []);
+
+  const loadActivePackage = useCallback(async (): Promise<ActivePackage | null> => {
+    try {
+      const res = await axiosInstance.get<{ data: ActivePackage | null }>("/profile/package");
+      setActivePackage(res.data.data);
+      return res.data.data;
+    } catch {
+      return null;
+    }
+  }, []);
+
+  // Fetch the user's package balance. After a Stripe redirect the webhook may land a few
+  // seconds later, so keep polling until the package shows up.
+  useEffect(() => {
+    if (!user) {
+      setActivePackage(null);
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const justPaid = params.get("package_purchase") === "success";
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const poll = async (attempt: number) => {
+      const pkg = await loadActivePackage();
+      if (cancelled || !justPaid) return;
+      if (pkg) {
+        setPaymentProcessing(false);
+        toast.success("Your package is active — book your first lesson below.");
+        window.history.replaceState(null, "", window.location.pathname);
+      } else if (attempt < PACKAGE_POLL_ATTEMPTS) {
+        setPaymentProcessing(true);
+        timer = setTimeout(() => poll(attempt + 1), PACKAGE_POLL_INTERVAL_MS);
+      }
+    };
+    poll(1);
+
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+    };
+  }, [user, loadActivePackage]);
 
   // Fetch dynamic price from settings
   useEffect(() => {
@@ -213,59 +376,117 @@ const LiveLessonForm = () => {
   // Fetch user's booked lessons if authenticated
   useEffect(() => {
     if (!user) return;
-    setLessonsLoading(true);
-    axiosInstance
-      .get<{ data: UserLesson[] }>("/profile/lessons")
-      .then((res) => setLessons(res.data.data))
-      .catch(() => {})
-      .finally(() => setLessonsLoading(false));
-  }, [user]);
+    loadLessons();
+  }, [user, loadLessons]);
 
   if (!hasMounted) return null;
 
-  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const today = new Date().toLocaleDateString("en-CA");
+  const today = todayInZone(timezone);
 
-  const fetchSlots = async (date: string) => {
+  // Slot labels are in `tz`, so they must be re-fetched whenever the timezone changes
+  const fetchSlots = async (date: string, tz: string = timezone) => {
+    const request = ++slotsRequest.current;
     setSlotsLoading(true);
     setAvailableSlots([]);
     setSelectedTime("");
     try {
       const { data } = await axiosInstance.get<string[]>(
-        `/bookings/available-slots?date=${date}&timezone=${encodeURIComponent(timezone)}`
+        `/bookings/available-slots?date=${date}&timezone=${encodeURIComponent(tz)}`
       );
+      if (request !== slotsRequest.current) return; // labels for a date/zone no longer selected
       setAvailableSlots(data);
       if (data.length === 0) {
         toast("No available slots for this date.", { icon: "📅" });
       }
     } catch {
-      toast.error("Failed to load available slots.");
+      if (request === slotsRequest.current) toast.error("Failed to load available slots.");
     } finally {
-      setSlotsLoading(false);
+      if (request === slotsRequest.current) setSlotsLoading(false);
     }
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value;
     setFormData((prev) => ({ ...prev, date }));
-    setDateError("");
     setAvailableSlots([]);
     setSelectedTime("");
 
-    if (!date) return;
-
-    const dow = new Date(`${date}T12:00:00`).getDay();
-    if (dow === 0 || dow === 6) {
-      setDateError("Please select a weekday (Monday – Friday).");
+    // No local weekend check: the teacher's Mon–Fri can fall on the student's Saturday or Sunday.
+    // The API returns no slots for days the teacher doesn't work.
+    if (!date) {
+      slotsRequest.current++; // drop any in-flight response for the previous date
+      setSlotsLoading(false);
       return;
     }
 
     fetchSlots(date);
   };
 
+  const handleTimezoneChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const tz = e.target.value;
+    setTimezone(tz);
+    setSelectedTime("");
+    setAvailableSlots([]);
+    if (formData.date) fetchSlots(formData.date, tz);
+  };
+
+  const selectedSummary =
+    formData.date && selectedTime
+      ? `${DateTime.fromISO(formData.date, { zone: "utc" }).toFormat("cccc d LLL")} ${selectedTime}, ${timezone}`
+      : "";
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleBuyPackage = async (id: number) => {
+    if (!user) {
+      toast("Please sign in to buy a package.", { icon: "🔒" });
+      router.push("/auth/signin?redirect=/live-lessons");
+      return;
+    }
+    setBuyingId(id);
+    try {
+      const res = await axiosInstance.post("/checkout", { type: "package", id });
+      window.location.href = res.data.url;
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Failed to start payment. Please try again.");
+      if (error.response?.status === 409) loadActivePackage();
+      setBuyingId(null);
+    }
+  };
+
+  const handleBookWithPackage = async () => {
+    try {
+      const res = await axiosInstance.post("/private-lesson-schedules", {
+        ...formData,
+        time: selectedTime,
+        timezone,
+        use_package: true,
+      });
+      const left = res.data.lessons_remaining;
+      toast.success(
+        typeof left === "number"
+          ? `Lesson booked! ${left} lesson${left === 1 ? "" : "s"} left in your package.`
+          : "Lesson booked!"
+      );
+      setFormData(EMPTY_FORM);
+      setSelectedTime("");
+      setAvailableSlots([]);
+      loadLessons();
+    } catch (error: any) {
+      if (error.response?.status === 409) {
+        toast.error("This slot was just taken — please pick another time.");
+        if (formData.date) fetchSlots(formData.date);
+      } else {
+        toast.error(error.response?.data?.message || "Failed to book the lesson.");
+      }
+    } finally {
+      // The balance changed either way (booked, or the package ran out / expired meanwhile)
+      await loadActivePackage();
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -275,6 +496,11 @@ const LiveLessonForm = () => {
       return;
     }
     setLoading(true);
+
+    if (activePackage) {
+      await handleBookWithPackage();
+      return;
+    }
 
     let scheduleId: number;
     try {
@@ -319,6 +545,31 @@ const LiveLessonForm = () => {
           {/* My upcoming lessons — only shown when logged in */}
           {user && (
             <MyUpcomingLessons lessons={lessons} loading={lessonsLoading} />
+          )}
+
+          {paymentProcessing && !activePackage && (
+            <div className="mb-10 rounded-xl border border-warning bg-warning-soft p-5 text-sm text-warning-ink">
+              Payment is being processed — your package will appear here in a moment. If it
+              doesn&apos;t, refresh the page shortly.
+            </div>
+          )}
+
+          {activePackage ? (
+            <div className="mb-10 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-success bg-success-soft p-5 text-success-ink">
+              <p className="font-semibold">
+                You have {activePackage.lessons_remaining} of {activePackage.lessons_total} lessons left
+                {activePackage.package?.name ? ` in “${activePackage.package.name}”` : ""} · expires{" "}
+                {formatExpiry(activePackage.expires_at, timezone)}
+              </p>
+              <p className="text-sm">Pick a time below — no payment needed.</p>
+            </div>
+          ) : (
+            <PackagesStorefront
+              packages={packages}
+              singlePrice={Number(lessonPrice) || 0}
+              buyingId={buyingId}
+              onBuy={handleBuyPackage}
+            />
           )}
 
           <div className="flex flex-col-reverse flex-wrap gap-8 md:flex-row md:flex-nowrap md:justify-between xl:gap-20">
@@ -391,11 +642,25 @@ const LiveLessonForm = () => {
                       required
                       className="w-full border-b border-line bg-transparent pb-3.5 focus:border-primary-600 focus-visible:outline-hidden"
                     />
-                    {dateError && (
-                      <p className="mt-1 text-xs text-error-ink">{dateError}</p>
-                    )}
                   </div>
-                  <div className="hidden w-full lg:block lg:w-1/2" />
+                  <div className="w-full lg:w-1/2">
+                    <label htmlFor="booking-timezone" className="mb-1 block text-xs font-medium">
+                      Your timezone
+                    </label>
+                    <select
+                      id="booking-timezone"
+                      name="timezone"
+                      value={timezone}
+                      onChange={handleTimezoneChange}
+                      className="w-full border-b border-line bg-transparent pb-3.5 focus:border-primary-600 focus-visible:outline-hidden"
+                    >
+                      {timezoneOptions.map((tz) => (
+                        <option key={tz} value={tz}>
+                          {timezoneLabel(tz)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 {/* Row 4 — Time slots */}
@@ -425,6 +690,11 @@ const LiveLessonForm = () => {
                         </button>
                       ))}
                     </div>
+                    {selectedSummary && (
+                      <p className="mt-4 text-sm font-semibold text-ink">
+                        You&apos;re booking: {selectedSummary}
+                      </p>
+                    )}
                   </div>
                 )}
 
@@ -447,7 +717,13 @@ const LiveLessonForm = () => {
                     aria-label="schedule lesson"
                     className="inline-flex items-center gap-2.5 rounded-full bg-primary-600 px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-primary-700 disabled:opacity-50"
                   >
-                    {loading ? "Processing Payment…" : `Schedule & Pay — $${lessonPrice}/hr`}
+                    {activePackage
+                      ? loading
+                        ? "Booking…"
+                        : "Book with package"
+                      : loading
+                      ? "Processing Payment…"
+                      : `Schedule & Pay — $${lessonPrice}/hr`}
                     <svg className="fill-white" width="14" height="14" viewBox="0 0 14 14" fill="none">
                       <path d="M10.4767 6.16664L6.00668 1.69664L7.18501 0.518311L13.6667 6.99998L7.18501 13.4816L6.00668 12.3033L10.4767 7.83331H0.333344V6.16664H10.4767Z" />
                     </svg>

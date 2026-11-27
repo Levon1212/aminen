@@ -191,6 +191,9 @@ const AuthArea = ({
               alt={user.name}
               fill
               sizes="36px"
+              // Avatars come from the API's storage host or an external URL, at any size:
+              // load them directly instead of through the optimizer and remotePatterns.
+              unoptimized
               className="object-cover"
             />
           </span>

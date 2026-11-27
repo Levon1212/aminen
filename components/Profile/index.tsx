@@ -5,6 +5,9 @@ import { useAuth } from "@/app/context/AuthContext";
 import axiosInstance from "@/libs/axios";
 import { toast } from "react-hot-toast";
 import { getImagePath } from "@/libs/imageHelper";
+import Link from "next/link";
+import { ActivePackage } from "@/types/lesson-package";
+import { detectTimezone, formatInstantInZone, formatInZone, isValidTimezone } from "@/libs/timezone";
 
 type LessonStatus = "pending" | "confirmed" | "cancelled";
 
@@ -15,7 +18,13 @@ interface UserLesson {
   duration: number | null;
   status: LessonStatus | null;
   meeting_link: string | null;
+  user_package_id?: number | null;
+  timezone: string | null;
 }
+
+// Lessons are shown in the timezone the student booked in (stored on the booking)
+const lessonTimezone = (lesson: UserLesson): string =>
+  isValidTimezone(lesson.timezone) ? (lesson.timezone as string) : detectTimezone();
 
 const Profile = () => {
   const { user, refreshUser } = useAuth();
@@ -32,9 +41,14 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [lessons, setLessons] = useState<UserLesson[]>([]);
   const [lessonsLoading, setLessonsLoading] = useState(false);
+  const [activePackage, setActivePackage] = useState<ActivePackage | null>(null);
 
   useEffect(() => {
     if (user) {
+      axiosInstance
+        .get<{ data: ActivePackage | null }>("/profile/package")
+        .then((res) => setActivePackage(res.data.data))
+        .catch(() => {});
       setLessonsLoading(true);
       axiosInstance
         .get<{ data: UserLesson[] }>("/profile/lessons")
@@ -258,6 +272,54 @@ const Profile = () => {
 
       <div className="mt-12.5 border-t border-line pt-10">
         <h3 className="mb-6 text-xl font-semibold text-ink">
+          My Package
+        </h3>
+        {activePackage ? (
+          <div className="rounded-lg border border-line p-5">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+              <p className="font-semibold text-ink">{activePackage.package?.name ?? "Lesson package"}</p>
+              <p className="text-sm">
+                Expires{" "}
+                {formatInstantInZone(activePackage.expires_at, detectTimezone(), "d LLL yyyy")}
+              </p>
+            </div>
+            <p className="mt-2 text-sm">
+              <span className="text-2xl font-bold text-ink">{activePackage.lessons_remaining}</span> of{" "}
+              {activePackage.lessons_total} lessons left
+            </p>
+            {(() => {
+              const booked = lessons.filter((l) => l.user_package_id === activePackage.id);
+              if (booked.length === 0) return null;
+              return (
+                <ul className="mt-4 flex flex-col gap-1 text-sm">
+                  {booked.map((l) => (
+                    <li key={l.id} className={l.status === "cancelled" ? "line-through opacity-60" : ""}>
+                      {formatInZone(l.date, l.time, lessonTimezone(l))} {lessonTimezone(l)}{" "}
+                      · <span className="capitalize">{l.status ?? "pending"}</span>
+                    </li>
+                  ))}
+                </ul>
+              );
+            })()}
+            <Link
+              href="/live-lessons"
+              className="mt-5 inline-flex rounded-full bg-primary-600 px-6 py-2.5 text-sm font-medium text-white hover:bg-primary-700"
+            >
+              Book a lesson
+            </Link>
+          </div>
+        ) : (
+          <p className="text-sm">
+            You have no active lesson package.{" "}
+            <Link href="/live-lessons" className="text-primary-600 hover:underline">
+              See packages
+            </Link>
+          </p>
+        )}
+      </div>
+
+      <div className="mt-12.5 border-t border-line pt-10">
+        <h3 className="mb-6 text-xl font-semibold text-ink">
           My Live Lessons
         </h3>
         {lessonsLoading ? (
@@ -275,13 +337,9 @@ const Profile = () => {
               >
                 <div className="flex flex-col gap-1">
                   <p className="text-sm font-medium text-ink">
-                    {lesson.date && lesson.time
-                      ? new Date(`${lesson.date}T${lesson.time}Z`).toLocaleString(undefined, {
-                          dateStyle: "medium",
-                          timeStyle: "short",
-                        })
-                      : "—"}
+                    {formatInZone(lesson.date, lesson.time, lessonTimezone(lesson))}
                   </p>
+                  <p className="text-xs">{lessonTimezone(lesson)}</p>
                   <p className="text-sm">
                     Duration: {lesson.duration ? `${lesson.duration} min` : "—"}
                   </p>
